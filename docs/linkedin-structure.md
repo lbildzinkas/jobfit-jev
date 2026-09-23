@@ -37,15 +37,15 @@ Method: read-only script evaluation in an already-open tab. No navigation, click
 
 ### 3.1 Skeleton
 
-- `main` contains everything, including the global nav (`[data-testid="primary-nav"]`) and search typeahead. **Scope every query to the detail root, never to `main`.**
-- **Detail root:** `[data-sdui-screen$=".SemanticJobDetails"]` (search) or `[data-sdui-screen$=".JobDetails"]` (standalone). In the search view it wraps only the detail pane; the result list sits outside it. On the live standalone page the screen attribute sits **outside `main`**, so the main-only capture (§7) drops it: `sdui-job-view-standalone.xhtml` carries no `data-sdui-screen`, and detection and rooting there fall back to the `[data-sdui-component]` markers and the nearest common ancestor of the job-id-bearing `JobDetails_*` componentkeys (spec §5.2 steps 4–5).
+- `main` contains all visible job content, including the global nav (`[data-testid="primary-nav"]`) and search typeahead; on the standalone page the `data-sdui-screen` wrapper itself sits outside it (next bullet). **Scope every query to the detail root, never to `main`.**
+- **Detail root:** `[data-sdui-screen$=".SemanticJobDetails"]` (search) or `[data-sdui-screen$=".JobDetails"]` (standalone). In the search view it wraps only the detail pane; the result list sits outside it. On the live standalone page the screen attribute sits **outside `main`**, so the main-only capture (§7) drops it: `sdui-job-view-standalone.xhtml` carries no `data-sdui-screen`, and detection and rooting there fall back to the `[data-sdui-component]` markers and the nearest common ancestor of the `JobDetails_*` componentkeys, which bear the pane's job id, not the URL's (spec §5.2 steps 4–5).
 - The detail pane is a `div[data-testid="lazy-column"]`. In search, the list is a separate `lazy-column` with `componentkey="SearchResultsMainContent"`.
 - There is no `h1`. Section headings are `h2`.
 - Named components (`data-sdui-component="com.linkedin.sdui.generated.jobseeker.dsl.impl.<name>"`), in document order:
   - Search: `jobMatch`, `peopleWhoCanHelp`, `aboutTheJob`, `premiumApplicantInsightsForJobDetails`, `premiumCompanyInsightsForJobDetails`, `aboutTheCompanyForJobDetails`.
   - Standalone adds `manageJobBanner`, `jobAlertToggle`, `resumeReview`, `similarJobs`.
 - **The top card (title, company, location, pills, Apply/Save) is not inside any `data-sdui-component`.** Its only stable hook is the company link's `componentkey="auto-binding-<uuid>-<jobId>"`.
-- Job-id-bearing keys in the detail pane (all equal to the URL job id): `JobDetails_AboutTheJob_<id>`, `JobDetails_AboutTheCompany_<id>`, `JobDetails_PremiumApplicantInsights_<id>`, `JobDetails_PremiumCompanyInsights_<id>`, `JobDetailsPeopleWhoCanHelpSlot_<id>`, `JobMatchRef_<id>`, `auto-binding-<uuid>-<id>`; standalone adds `JobDetails_ManageJobBanner_<id>`, `JobDetails_JobAlertToggle_<id>`, `JobDetails_ResumeReview_<id>`, `JobDetailsSimilarJobsSlot_<id>`.
+- Job-id-bearing keys in the detail pane (all equal to the pane's job id, which is the URL job id only on a fresh pane): `JobDetails_AboutTheJob_<id>`, `JobDetails_AboutTheCompany_<id>`, `JobDetails_PremiumApplicantInsights_<id>`, `JobDetails_PremiumCompanyInsights_<id>`, `JobDetailsPeopleWhoCanHelpSlot_<id>`, `JobMatchRef_<id>`, `auto-binding-<uuid>-<id>`; standalone adds `JobDetails_ManageJobBanner_<id>`, `JobDetails_JobAlertToggle_<id>`, `JobDetails_ResumeReview_<id>`, `JobDetailsSimilarJobsSlot_<id>`.
 
 ### 3.2 Fields and fallback order
 
