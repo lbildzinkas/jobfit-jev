@@ -1,0 +1,1164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Sanitized structural fixture: LinkedIn signed-in jobs page, classic (Ember) layout, /jobs/collections/recommended/?currentJobId=<id> two-pane view.
+  Captured 2026-09-23 read-only from a live Safari tab (osascript "do JavaScript"); sanitized inside the page before export.
+  XHTML on purpose: the live DOM nests block elements (ul/li) inside p>span, which an HTML parser would restructure.
+  Load it with an XML parser, e.g. new JSDOM(src, { contentType: 'application/xhtml+xml', url }) or DOMParser 'application/xhtml+xml'.
+  - Only <main> captured; global nav, search typeahead, interop overlay, iframes, scripts, styles removed; job list trimmed to the
+    selected card plus two others.
+  - Every text node and aria-label/title/alt replaced by "T<n> xxx" placeholders (same string -> same placeholder; exact length up to
+    10 chars, else rounded up to the next 10); a small allowlist of UI labels kept verbatim ("About the job", "Remote", "Apply", ...).
+  - Numeric ids (5+ digits) remapped: the selected job is 1000000001, others 1000000002..; UUIDs remapped to 00000000-0000-4000-8000-<n>;
+    company slug -> example-co, profile slugs -> redacted, external links -> example.com, query strings dropped.
+  - Hashed CSS class names kept as captured (structural only); style/src/srcset removed; SVG bodies emptied.
+  Test location: https://www.linkedin.com/jobs/collections/recommended/?currentJobId=1000000001
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta charset="utf-8"/><title>T112 xxxxxxxxxxxxxxxxxxxxxxxxx | LinkedIn</title></head><body>
+<main id="main" class="RiqsCkqgeAFfFWYRcrbhAWMdILMEJcPGjA&#10;    scaffold-layout__list-detail&#10;    ">
+    <div class="scaffold-layout__list-detail-container">
+      <div>
+        
+              
+            
+      </div>
+      <div class="scaffold-layout__list-detail-inner scaffold-layout__list-detail-inner--grow">
+        <div class="scaffold-layout__list " tabindex="-1">
+          
+              
+    
+      <header class="scaffold-layout__list-header &#10;          &#10;          jobs-search-results-list__header ph1&#10;          " tabindex="-1">
+  
+        <div class="jobs-search-results-list__title-heading&#10;            truncate&#10;            ">
+          <span id="results-list__title" class="t-16" title="T1 xxxxxxxxxxxxxxxxxxxxxxxxxxx" dir="ltr">
+              T1 xxxxxxxxxxxxxxxxxxxxxxxxxxx
+          </span>
+
+          <div class="display-flex flex-column t-12 t-black--light t-normal">
+              <small class="display-flex t-normal&#10;                  t-12 t-black--light&#10;                  pt1&#10;                  ">
+                <div class="jobs-search-results-list__subtitle&#10;                    ">
+                    <span dir="ltr">
+                      T2 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                    </span>
+                </div>
+              </small>
+                          <small class="display-flex t-12 t-black--light t-normal&#10;                  &#10;                  pt1" dir="ltr">
+                  T3 xxxxxxxxxxxxxxxxx
+              </small>
+          </div>
+        </div>
+        
+      
+    
+      
+</header>
+
+      <div class="GFnomTwWTjEHgKwUdaeEcVdinMgXoNQEEQQ&#10;          &#10;          ">
+        
+      
+  
+            <button id="ember30" class="artdeco-button artdeco-button--1 artdeco-button--fluid artdeco-button--tertiary ember-view scaffold-layout__list-jump-button" type="button">
+<span class="artdeco-button__text">
+    T4 xxxxxxxxxxxxxxxxxxxxxxxxxxx
+</span></button>
+
+            <button id="ember31" class="artdeco-button artdeco-button--1 artdeco-button--fluid artdeco-button--tertiary ember-view scaffold-layout__list-jump-button" type="button">
+<span class="artdeco-button__text">
+    T5 xxxxxxxxxxxxxxxxxxxxxxxxxxx
+</span></button>
+
+      
+
+    
+        <div data-results-list-top-scroll-sentinel=""></div>
+          <ul class="tPVCNAbMmJgIrXWvdQZXpTxKqsjOSDowoZjo">
+  
+              
+        <li id="ember32" class="ember-view   dsPUCQAZpjeoQebpevtWreoPeReJKtYfA occludable-update p0 relative scaffold-layout__list-item" data-occludable-job-id="1000000002">
+            
+                  
+    <div>
+      
+    <div data-job-id="1000000002" class="display-flex job-card-container relative job-card-list&#10;        job-card-container--clickable&#10;        &#10;        job-card-list--underline-title-on-hover  jobs-search-two-pane__job-card-container--viewport-tracking-0">
+
+      <div>
+        <div id="ember33" class="job-card-list__entity-lockup  artdeco-entity-lockup artdeco-entity-lockup--size-4 ember-view">
+            <div id="ember34" class="job-card-list__logo  artdeco-entity-lockup__image artdeco-entity-lockup__image--type-square ember-view" type="square">
+              
+    <div class="ivm-image-view-model    job-card-list__logo-ivm">
+        
+    <div class="ivm-view-attr__img-wrapper&#10;        &#10;        ">
+
+          <img width="56" loading="lazy" height="56" alt="T94 xxxxxxxxxxxxxxxxxxxxxxxxxx" id="ember35" class="ivm-view-attr__img--centered EntityPhoto-square-4   evi-image lazy-image evi-image--standard-dynamic-range ember-view" />
+    </div>
+  
+          </div>
+  
+            
+</div>
+
+          <div id="ember36" class="flex-grow-1 artdeco-entity-lockup__content ember-view">
+            <div id="ember37" class="full-width artdeco-entity-lockup__title ember-view">
+                  <a data-control-id="redacted" tabindex="0" href="/jobs/view/1000000002/" id="ember38" class="disabled ember-view job-card-container__link&#10;                      lyVFjubZOtntqcXodIJoscKKbYs&#10;                      job-card-list__title--link" aria-label="T7 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" dir="ltr">
+                      <span aria-hidden="true"><strong>T6 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</strong><span class="white-space-pre"> </span><span class="tvm__text tvm__text--low-emphasis"><svg role="none" aria-hidden="true" class="text-view-model__verified-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" data-supported-dps="16x16" data-test-icon="verified-small"/>
+</span></span><span class="visually-hidden">T7 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                  </a>
+            
+</div>
+            <div id="ember39" class="artdeco-entity-lockup__subtitle ember-view">
+                <span class="vWvZFalbmsrdmgzmWiNqSWkTjLbCbBlso " dir="ltr">
+                  T8 xxxxxxxxxxxxxxxxxxxxxxxxxxx
+                </span>
+
+            </div>
+
+            <div id="ember40" class="artdeco-entity-lockup__caption ember-view">
+                  <ul class="job-card-container__metadata-wrapper">
+                      <li class="wrtbYHbAUdwdlUuYIHQibXsGvoHwRqUuQwXs ">
+                        <span dir="ltr">
+                          T9 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                        </span>
+                      </li>
+                  </ul>
+            </div>
+
+
+          </div>
+
+        
+</div>
+
+            
+      
+            <ul class="job-card-list__footer-wrapper job-card-container__footer-wrapper flex-shrink-zero display-flex t-sans t-12 t-black--light t-normal t-roman mt1">
+                    <li class="job-card-container__footer-item job-card-container__footer-job-state t-bold">
+                      Viewed
+                    </li>
+                                        <li class="job-card-container__footer-item inline-flex align-items-center">
+                        <span dir="ltr">
+                          Promoted
+                        </span>
+                      </li>
+                                          <li class="job-card-container__footer-item inline-flex align-items-center">
+                        <span dir="ltr">
+                          <strong><span class="tvm__text tvm__text--positive">T10 xxxxxxxxxxxxxxxxxxxxxxxxxx</span></strong>
+                        </span>
+                      </li>
+                                </ul>
+          <span class="visually-hidden" aria-live="polite">
+          </span>
+      </div>
+      <div class="job-card-list__actions-container">
+          
+        
+      <div>
+          <button aria-label="T95 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" id="ember41" class="job-card-container__action job-card-container__action-small artdeco-button artdeco-button--muted artdeco-button--2 artdeco-button--tertiary ember-view" type="button">
+<span class="artdeco-button__text">
+    
+            <svg role="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" data-supported-dps="16x16" data-test-icon="close-small"/>
+
+            <span class="job-card-container__action-text"></span>
+          
+</span></button>
+      </div>
+  
+        
+      </div>
+    </div>
+  
+    </div>
+  
+                              
+        </li>
+  
+              
+        <li id="ember42" class="ember-view   dsPUCQAZpjeoQebpevtWreoPeReJKtYfA occludable-update p0 relative scaffold-layout__list-item" data-occludable-job-id="1000000001">
+            
+                  
+    <div>
+      
+    <div data-job-id="1000000001" class="display-flex job-card-container relative job-card-list&#10;        job-card-container--clickable&#10;        &#10;        job-card-list--underline-title-on-hover jobs-search-results-list__list-item--active jobs-search-two-pane__job-card-container--viewport-tracking-1" aria-current="page">
+
+      <div>
+        <div id="ember43" class="job-card-list__entity-lockup  artdeco-entity-lockup artdeco-entity-lockup--size-4 ember-view">
+            <div id="ember44" class="job-card-list__logo  artdeco-entity-lockup__image artdeco-entity-lockup__image--type-square ember-view" type="square">
+              
+    <div class="ivm-image-view-model    job-card-list__logo-ivm">
+        
+    <div class="ivm-view-attr__img-wrapper&#10;        &#10;        ">
+
+          <img width="56" loading="lazy" height="56" alt="T96 xxxxxxxxxxxxxxxx" id="ember45" class="ivm-view-attr__img--centered EntityPhoto-square-4   evi-image lazy-image evi-image--standard-dynamic-range ember-view" />
+    </div>
+  
+          </div>
+  
+            
+</div>
+
+          <div id="ember46" class="flex-grow-1 artdeco-entity-lockup__content ember-view">
+            <div id="ember47" class="full-width artdeco-entity-lockup__title ember-view">
+                  <a data-control-id="redacted" tabindex="0" href="/jobs/view/1000000001/" id="ember48" class="disabled ember-view job-card-container__link&#10;                      lyVFjubZOtntqcXodIJoscKKbYs&#10;                      job-card-list__title--link" aria-label="T12 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" dir="ltr">
+                      <span aria-hidden="true"><strong>T11 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</strong><span class="white-space-pre"> </span><span class="tvm__text tvm__text--low-emphasis"><svg role="none" aria-hidden="true" class="text-view-model__verified-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" data-supported-dps="16x16" data-test-icon="verified-small"/>
+</span></span><span class="visually-hidden">T12 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                  </a>
+            
+</div>
+            <div id="ember49" class="artdeco-entity-lockup__subtitle ember-view">
+                <span class="vWvZFalbmsrdmgzmWiNqSWkTjLbCbBlso " dir="ltr">
+                  T13 xxxxxxxxxxxxxxxx
+                </span>
+
+            </div>
+
+            <div id="ember50" class="artdeco-entity-lockup__caption ember-view">
+                  <ul class="job-card-container__metadata-wrapper">
+                      <li class="wrtbYHbAUdwdlUuYIHQibXsGvoHwRqUuQwXs ">
+                        <span dir="ltr">
+                          T9 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                        </span>
+                      </li>
+                  </ul>
+            </div>
+
+                <div id="ember51" class="mt1 t-sans t-12 t-black--light t-normal t-roman artdeco-entity-lockup__metadata ember-view">
+                  <ul class="job-card-container__metadata-wrapper">
+                    <li class="wrtbYHbAUdwdlUuYIHQibXsGvoHwRqUuQwXs">
+                      <span dir="ltr">
+                        T14 xxxxxxxxxxxxxxxxxxxxxxxxxx
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+
+          </div>
+
+        
+</div>
+
+            
+      
+            <ul class="job-card-list__footer-wrapper job-card-container__footer-wrapper flex-shrink-zero display-flex t-sans t-12 t-black--light t-normal t-roman mt1">
+                    <li class="job-card-container__footer-item job-card-container__footer-job-state t-bold">
+                      Viewed
+                    </li>
+                                        <li class="job-card-container__footer-item inline-flex align-items-center">
+                        <span dir="ltr">
+                          Promoted
+                        </span>
+                      </li>
+                                          <li class="TvKDVixNUuqgptPtiTGyeEgfcsDNOueiCrA&#10;                          job-card-container__footer-item inline-flex align-items-center">
+                        <svg role="none" aria-hidden="true" class="job-card-list__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" data-supported-dps="16x16" data-test-icon="linkedin-bug-color-small"/>
+
+                        <span dir="ltr">
+                          Easy Apply
+                        </span>
+                      </li>
+            </ul>
+          <span class="visually-hidden" aria-live="polite">
+          </span>
+      </div>
+      <div class="job-card-list__actions-container">
+          
+        
+      <div>
+          <button aria-label="T97 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" id="ember52" class="job-card-container__action job-card-container__action-small artdeco-button artdeco-button--muted artdeco-button--2 artdeco-button--tertiary ember-view" type="button">
+<span class="artdeco-button__text">
+    
+            <svg role="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" data-supported-dps="16x16" data-test-icon="close-small"/>
+
+            <span class="job-card-container__action-text"></span>
+          
+</span></button>
+      </div>
+  
+        
+      </div>
+    </div>
+  
+    </div>
+  
+                              
+        </li>
+  
+              
+        <li id="ember53" class="ember-view   dsPUCQAZpjeoQebpevtWreoPeReJKtYfA occludable-update p0 relative scaffold-layout__list-item" data-occludable-job-id="1000000003">
+            
+                  
+    <div>
+      
+    <div data-job-id="1000000003" class="display-flex job-card-container relative job-card-list&#10;        job-card-container--clickable&#10;        &#10;        job-card-list--underline-title-on-hover  jobs-search-two-pane__job-card-container--viewport-tracking-2">
+
+      <div>
+        <div id="ember54" class="job-card-list__entity-lockup  artdeco-entity-lockup artdeco-entity-lockup--size-4 ember-view">
+            <div id="ember55" class="job-card-list__logo  artdeco-entity-lockup__image artdeco-entity-lockup__image--type-square ember-view" type="square">
+              
+    <div class="ivm-image-view-model    job-card-list__logo-ivm">
+        
+    <div class="ivm-view-attr__img-wrapper&#10;        &#10;        ">
+
+          <img width="56" loading="lazy" height="56" alt="T98 xxxxx" id="ember56" class="ivm-view-attr__img--centered EntityPhoto-square-4   evi-image lazy-image evi-image--standard-dynamic-range ember-view" />
+    </div>
+  
+          </div>
+  
+            
+</div>
+
+          <div id="ember57" class="flex-grow-1 artdeco-entity-lockup__content ember-view">
+            <div id="ember58" class="full-width artdeco-entity-lockup__title ember-view">
+                  <a data-control-id="redacted" tabindex="0" href="/jobs/view/1000000003/" id="ember59" class="disabled ember-view job-card-container__link&#10;                      lyVFjubZOtntqcXodIJoscKKbYs&#10;                      job-card-list__title--link" aria-label="T15 xxxxxxxxxxxxxxxx" dir="ltr">
+                      <span aria-hidden="true"><strong>T15 xxxxxxxxxxxxxxxx</strong></span><span class="visually-hidden">T15 xxxxxxxxxxxxxxxx</span>
+                  </a>
+            
+</div>
+            <div id="ember60" class="artdeco-entity-lockup__subtitle ember-view">
+                <span class="vWvZFalbmsrdmgzmWiNqSWkTjLbCbBlso " dir="ltr">
+                  T16 
+                </span>
+
+            </div>
+
+            <div id="ember61" class="artdeco-entity-lockup__caption ember-view">
+                  <ul class="job-card-container__metadata-wrapper">
+                      <li class="wrtbYHbAUdwdlUuYIHQibXsGvoHwRqUuQwXs ">
+                        <span dir="ltr">
+                          T17 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                        </span>
+                      </li>
+                  </ul>
+            </div>
+
+                <div id="ember62" class="mt1 t-sans t-12 t-black--light t-normal t-roman artdeco-entity-lockup__metadata ember-view">
+                  <ul class="job-card-container__metadata-wrapper">
+                    <li class="wrtbYHbAUdwdlUuYIHQibXsGvoHwRqUuQwXs">
+                      <span dir="ltr">
+                        T18 xxxxxxxxxxxxxxxxxxxxxxxxxx
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+
+          </div>
+
+        
+</div>
+
+            
+      
+            <ul class="job-card-list__footer-wrapper job-card-container__footer-wrapper flex-shrink-zero display-flex t-sans t-12 t-black--light t-normal t-roman mt1">
+                      <li class="job-card-container__footer-item inline-flex align-items-center">
+                        <span dir="ltr">
+                          Promoted
+                        </span>
+                      </li>
+                                          <li class="TvKDVixNUuqgptPtiTGyeEgfcsDNOueiCrA&#10;                          job-card-container__footer-item inline-flex align-items-center">
+                        <svg role="none" aria-hidden="true" class="job-card-list__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" data-supported-dps="16x16" data-test-icon="linkedin-bug-color-small"/>
+
+                        <span dir="ltr">
+                          Easy Apply
+                        </span>
+                      </li>
+            </ul>
+          <span class="visually-hidden" aria-live="polite">
+          </span>
+      </div>
+      <div class="job-card-list__actions-container">
+          
+        
+      <div>
+          <button aria-label="T99 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" id="ember63" class="job-card-container__action job-card-container__action-small artdeco-button artdeco-button--muted artdeco-button--2 artdeco-button--tertiary ember-view" type="button">
+<span class="artdeco-button__text">
+    
+            <svg role="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" data-supported-dps="16x16" data-test-icon="close-small"/>
+
+            <span class="job-card-container__action-text"></span>
+          
+</span></button>
+      </div>
+  
+        
+      </div>
+    </div>
+  
+    </div>
+  
+                              
+        </li>
+  
+              
+        
+  
+              
+        
+  
+              
+        
+  
+              
+        
+  
+              
+        
+  
+              
+        
+  
+              
+        
+  
+              
+        
+  
+              
+        
+  
+              
+        
+  
+              
+        
+  
+              
+        
+  
+              
+        
+  
+              
+        
+  
+              
+        
+  
+              
+        
+  
+              
+        
+  
+              
+        
+  
+              
+        
+  
+              
+        
+  
+              
+        
+  
+          
+</ul>
+          
+    <div data-view-name="jobs-search-list-feedback">
+        <div class="jobs-list-feedback jobs-list-feedback--background-transparent pr3">
+            <div class="display-flex justify-space-between align-items-center">
+              <div class="jobs-list-feedback--fixed-width">
+                <h2 class="t-16 t-bold">
+                  T19 xxxxxxxxxxxxxxxxxxxxxxxxxx
+                </h2>
+                <p class="t-14 t-black--light t-normal">
+                  T20 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                </p>
+              </div>
+              <div class="flex-shrink-zero">
+                <button id="ember126" class="artdeco-button artdeco-button--circle artdeco-button--muted artdeco-button--3 artdeco-button--tertiary ember-view">        <svg role="none" aria-hidden="true" class="artdeco-button__icon " xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" data-supported-dps="24x24" data-test-icon="thumbs-down-outline-medium"/>
+
+
+<span class="artdeco-button__text">
+    T21 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+</span></button>
+                <button id="ember127" class="artdeco-button artdeco-button--circle artdeco-button--muted artdeco-button--3 artdeco-button--tertiary ember-view">        <svg role="none" aria-hidden="true" class="artdeco-button__icon " xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" data-supported-dps="24x24" data-test-icon="thumbs-up-outline-medium"/>
+
+
+<span class="artdeco-button__text">
+    T22 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+</span></button>
+              </div>
+            </div>
+        </div>
+      <div id="ember128" class="ember-view"></div>
+    </div>
+  
+        <div id="jobs-search-results-footer">
+          
+      
+    
+            
+    <div class="jobs-search-pagination jobs-search-results-list__pagination p4">
+        <div class="jobs-search-pagination__spacer"></div>
+
+      <ul class="jobs-search-pagination__pages">
+            <li class="jobs-search-pagination__indicator">
+              <button class="jobs-search-pagination__indicator-button jobs-search-pagination__indicator-button--active" aria-current="page" aria-label="T100 x" type="button">
+                <span>T23</span>
+              </button>
+            </li>
+            <li class="jobs-search-pagination__indicator">
+              <button class="jobs-search-pagination__indicator-button " aria-label="T101 x" type="button">
+                <span>T24</span>
+              </button>
+            </li>
+            <li class="jobs-search-pagination__indicator">
+              <button class="jobs-search-pagination__indicator-button " aria-label="T102 x" type="button">
+                <span>T25</span>
+              </button>
+            </li>
+          <li class="jobs-search-pagination__indicator">
+            <button class="jobs-search-pagination__indicator-button" aria-label="T103 x" type="button">
+              <span>…</span>
+            </button>
+          </li>
+      </ul>
+      <p class="jobs-search-pagination__page-state">
+        T26 xxxxxxxxxxxxxxxx
+      </p>
+
+        <button aria-label="T104 xxxxxxxxxxxxxxx" id="ember123" class="artdeco-button artdeco-button--muted artdeco-button--icon-right artdeco-button--1 artdeco-button--tertiary ember-view jobs-search-pagination__button jobs-search-pagination__button--next" type="button">        <svg role="none" aria-hidden="true" class="artdeco-button__icon " xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" data-supported-dps="16x16" data-test-icon="chevron-right-small" data-rtl="true"/>
+
+
+<span class="artdeco-button__text">
+    T27 
+</span></button>
+    </div>
+  
+            
+    <footer class="global-footer-compact&#10;        " aria-label="T105 xxxxxxxxxxxxxxxxxxxxxxxxx">
+      
+        <div id="ember124" class="ember-view global-footer-compact__occlusion-hint  ">
+        </div>
+  
+    </footer>
+  
+        </div>
+      </div>
+  
+  
+            
+        </div>
+
+        <div class="scaffold-layout__detail&#10;            overflow-x-hidden jobs-search__job-details&#10;            &#10;            " tabindex="-1">
+          
+              
+    
+    <div class="jobs-search__job-details--wrapper">
+      <div></div>
+        
+      <div aria-label="T11 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" class="jobs-search__job-details--container&#10;          " data-job-details-events-trigger="">
+        
+      <div class="jobs-semantic-search-job-details-wrapper" tabindex="0">
+        <div></div>
+        
+
+    <div class="job-view-layout jobs-details">
+      <div>
+        <div class="jobs-details__main-content jobs-details__main-content--single-pane full-width&#10;            ">
+
+          <div>
+            
+    <div class="t-14" tabindex="-1">
+      <div class="relative&#10;          job-details-jobs-unified-top-card__container--two-pane">
+        <div>
+          <div class="display-flex align-items-center">
+            <div class="display-flex align-items-center flex-1">
+                <a class="eMWyYeILMUrYJIZgAuQnlkRxTXKIjierJvffXfXDA " aria-label="T96 xxxxxxxxxxxxxxxx" href="https://www.linkedin.com/company/example-co/life" data-test-app-aware-link="">
+                    
+    <div class="ivm-image-view-model   ">
+        
+    <div class="ivm-view-attr__img-wrapper&#10;        &#10;        ">
+
+          <img width="32" loading="lazy" height="32" alt="T96 xxxxxxxxxxxxxxxx" id="ember281" class="ivm-view-attr__img--centered EntityPhoto-square-1   evi-image lazy-image evi-image--standard-dynamic-range ember-view" />
+    </div>
+  
+          </div>
+  
+                </a>
+
+                <div class="job-details-jobs-unified-top-card__company-name" dir="ltr">
+                  <a class="eMWyYeILMUrYJIZgAuQnlkRxTXKIjierJvffXfXDA " target="_self" tabindex="0" href="https://www.linkedin.com/company/example-co/life" data-test-app-aware-link="">T13 xxxxxxxxxxxxxxxx</a>
+                </div>
+            </div>
+
+            <div class="job-details-jobs-unified-top-card__top-buttons">
+                
+    <div class="social-share">
+      <div id="ember248" class="artdeco-dropdown artdeco-dropdown--placement-bottom artdeco-dropdown--justification-right ember-view">
+          <button aria-expanded="false" aria-label="Share" id="ember249" class="social-share__dropdown-trigger artdeco-button artdeco-button--3 artdeco-button--tertiary artdeco-button--circle artdeco-button--muted artdeco-dropdown__trigger artdeco-dropdown__trigger--placement-bottom ember-view" type="button" tabindex="0">
+            <svg role="none" aria-hidden="true" class="artdeco-button__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" data-supported-dps="24x24" data-test-icon="share-linkedin-medium" data-rtl="true"/>
+
+            <span class="artdeco-button__text">Share</span>
+          
+</button>
+
+        <div tabindex="-1" aria-hidden="true" id="ember250" class="social-share__content text-align-left artdeco-dropdown__content artdeco-dropdown--is-dropdown-element artdeco-dropdown__content--has-arrow artdeco-dropdown__content--arrow-right artdeco-dropdown__content--justification-right artdeco-dropdown__content--placement-bottom ember-view"></div>
+      </div>
+
+      <div>
+  
+      
+  
+  
+</div>
+
+
+
+    </div>
+  
+                
+    <div id="ember251" class="artdeco-dropdown jobs-options artdeco-dropdown--placement-bottom artdeco-dropdown--justification-right ember-view">
+      
+                  <button aria-expanded="false" id="ember252" class="artdeco-button artdeco-button--3 artdeco-button--tertiary artdeco-button--muted artdeco-button--circle artdeco-dropdown__trigger artdeco-dropdown__trigger--placement-bottom ember-view" type="button" tabindex="0">
+                    <svg role="none" aria-hidden="true" class="artdeco-button__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" data-supported-dps="24x24" data-test-icon="overflow-web-ios-medium"/>
+
+                    <span class="artdeco-button__text">
+                      T28 xxxxxxxxxxxxxxxx
+                    </span>
+                  
+</button>
+                
+      <div tabindex="-1" aria-hidden="true" id="ember253" class="artdeco-dropdown__content artdeco-dropdown--is-dropdown-element artdeco-dropdown__content--has-arrow artdeco-dropdown__content--arrow-right artdeco-dropdown__content--justification-right artdeco-dropdown__content--placement-bottom ember-view"></div>
+    </div>
+  
+            </div>
+          </div>
+
+          <div class="display-flex justify-space-between flex-wrap mt2">
+            <div class="t-24 job-details-jobs-unified-top-card__job-title">
+              <h1 class="t-24 t-bold inline"><a href="/jobs/view/1000000001/" id="ember254" class="ember-view">T11 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</a></h1><span class="white-space-nowrap"> <button class="job-details-jobs-unified-top-card__job-title-badge" aria-label="T106 xxxxxxxxxxxxxxxxxxxxxxxxx" type="button">
+    <div class="ivm-image-view-model   ">
+        
+    <div class="ivm-view-attr__img-wrapper&#10;        &#10;        ">
+
+        <svg role="none" aria-hidden="true" class="ivm-view-attr__icon  " xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" data-supported-dps="24x24" data-test-icon="verified-medium"/>
+
+    </div>
+  
+          </div>
+  </button></span></div>
+
+          </div>
+
+
+          <div class="job-details-jobs-unified-top-card__primary-description-container">
+              <div class="t-black--light mt2 job-details-jobs-unified-top-card__tertiary-description-container">
+                <span dir="ltr"><span class="tvm__text tvm__text--low-emphasis">T29 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span><span class="tvm__text tvm__text--low-emphasis"><span class="white-space-pre"> </span>·<span class="white-space-pre"> </span></span><span class="tvm__text tvm__text--low-emphasis"><span>T30 xxxxxx</span></span><span class="tvm__text tvm__text--low-emphasis"><span class="white-space-pre"> </span>·<span class="white-space-pre"> </span></span><span class="tvm__text tvm__text--low-emphasis">T31 xxxxxxxxxxxxxxxx</span><p><span class="tvm__text tvm__text--low-emphasis">T32 xxxxxxxxxxxxxxxx</span><span class="tvm__text tvm__text--low-emphasis"><span class="white-space-pre"> </span>·<span class="white-space-pre"> </span></span><span class="tvm__text tvm__text--positive"><strong>Actively reviewing applicants</strong></span></p></span>
+              </div>
+          </div>
+
+
+            
+      <div class="job-details-fit-level-preferences">
+            <button tabindex="0" class="artdeco-button artdeco-button--secondary artdeco-button--muted" type="button">
+              <span class="tvm__text tvm__text--low-emphasis"><strong>T14 xxxxxxxxxxxxxxxxxxxxxxxxxx</strong></span>
+            </button>
+            <button tabindex="0" class="artdeco-button artdeco-button--secondary artdeco-button--muted" type="button">
+              <span aria-hidden="true"><span class="tvm__text tvm__text--low-emphasis"><strong><li-icon aria-hidden="true" type="check" class="v-align-bottom" size="small"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" data-supported-dps="16x16" fill="currentColor" class="mercado-match" width="16" height="16" focusable="false"/></li-icon><span class="white-space-pre"> </span>Hybrid</strong></span></span><span class="visually-hidden">T33 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+            </button>
+            <button tabindex="0" class="artdeco-button artdeco-button--secondary artdeco-button--muted" type="button">
+              <span class="tvm__text tvm__text--low-emphasis"><strong>Full-time</strong></span>
+            </button>
+      </div>
+      
+    <div id="ember282" class="ember-view"></div>
+  
+  
+
+          <div class="mt4">
+              <div class="display-flex">
+                    
+    <div class="jobs-s-apply&#10;         jobs-s-apply--fadein inline-flex mr2">
+        
+    <div class="jobs-apply-button--top-card">
+      <button aria-label="T107 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" id="jobs-apply-button-id" class="jobs-apply-button&#10;         artdeco-button artdeco-button--3 artdeco-button--primary ember-view" data-job-id="1000000001" data-live-test-job-apply-button="">        <svg role="none" aria-hidden="true" class="artdeco-button__icon artdeco-button__icon--in-bug" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" data-supported-dps="14x14" data-test-icon="linkedin-bug-xxsmall"/>
+
+
+<span class="artdeco-button__text">
+    Easy Apply
+</span></button>
+    </div>
+  
+          </div>
+  
+
+                    <span class="visibility-hidden"></span>
+
+                      
+    <button class="jobs-save-button&#10;         artdeco-button artdeco-button--secondary artdeco-button--3" type="button">
+        <span aria-hidden="true" class="jobs-save-button__text">
+          Save
+        </span>
+        <span class="a11y-text">
+          T34 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        </span>
+    </button>
+  
+              </div>
+
+
+
+          </div>
+
+
+
+
+        </div>
+
+
+      </div>
+        <div class="job-details-jobs-unified-top-card__sticky-header&#10;            job-details-jobs-unified-top-card__sticky-header--disabled">
+          <div class="job-details-jobs-unified-top-card__title-container">
+              <a data-control-id="redacted" href="/jobs/view/1000000001/" id="ember255" class="ember-view">
+                <h2 class="t-16 t-black t-bold truncate">
+                  T11 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                </h2>
+              </a>
+            <div class="t-14 truncate">
+              T35 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            </div>
+          </div>
+          <div class="job-details-jobs-unified-top-card__sticky-buttons-container">
+                
+    <div class="jobs-s-apply&#10;         jobs-s-apply--fadein inline-flex mr2">
+        
+    <div class="jobs-apply-button--top-card">
+      <button aria-label="T107 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" id="jobs-apply-button-id" class="jobs-apply-button&#10;         artdeco-button artdeco-button--2 artdeco-button--primary ember-view" data-job-id="1000000001" data-live-test-job-apply-button="">        <svg role="none" aria-hidden="true" class="artdeco-button__icon artdeco-button__icon--in-bug" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" data-supported-dps="14x14" data-test-icon="linkedin-bug-xxsmall"/>
+
+
+<span class="artdeco-button__text">
+    Easy Apply
+</span></button>
+    </div>
+  
+          </div>
+  
+
+                  
+    <button class="jobs-save-button&#10;         mr2 artdeco-button artdeco-button--2 artdeco-button--secondary" aria-expanded="false" type="button">
+        <span aria-hidden="true" class="jobs-save-button__text">
+          Save
+        </span>
+        <span class="a11y-text">
+          T34 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        </span>
+    </button>
+  
+
+            
+    <div id="ember257" class="artdeco-dropdown jobs-options artdeco-dropdown--placement-bottom artdeco-dropdown--justification-right ember-view inline-flex">
+      
+              <button aria-expanded="false" id="ember258" class="artdeco-button artdeco-button--2 artdeco-button--tertiary artdeco-button--muted artdeco-button--circle artdeco-dropdown__trigger artdeco-dropdown__trigger--placement-bottom ember-view" type="button" tabindex="0">
+                <svg role="none" aria-hidden="true" class="artdeco-button__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" data-supported-dps="24x24" data-test-icon="overflow-web-ios-medium"/>
+
+                <span class="artdeco-button__text">
+                  T28 xxxxxxxxxxxxxxxx
+                </span>
+              
+</button>
+            
+      <div tabindex="-1" aria-hidden="true" id="ember259" class="artdeco-dropdown__content artdeco-dropdown--is-dropdown-element artdeco-dropdown__content--has-arrow artdeco-dropdown__content--arrow-right artdeco-dropdown__content--justification-right artdeco-dropdown__content--placement-bottom ember-view"></div>
+    </div>
+  
+          </div>
+        </div>
+    </div>
+  
+
+          </div>
+
+            
+  
+
+            
+  
+
+            
+    <div class="job-details-module relative">
+
+            <h2 class="text-heading-large mb2">
+              T36 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            </h2>
+
+
+            <p class="t-14 mb2" dir="ltr">
+              T37 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+              <a tabindex="0" rel="noopener noreferrer" target="_blank" href="https://www.linkedin.com/premium/products/" id="ember436" class="ember-view job-details-how-you-fit__upsell-link">
+                T38 xxxxxxxxxxxxxxxx
+              </a>
+            </p>
+
+            
+    <div>
+        <section class="guide-entry-point-container">
+          <div class="mt5">
+            <div class="ph5 guide-entry-point-container__item">
+
+
+            </div>
+
+            
+    
+
+                
+    <div class="display-flex align-items-center relative mb5 guide-entry-point-container__item&#10;                    mt5">
+        <button aria-label="T108 xxxxxxxxxxxxxxx" id="ember440" class="artdeco-button artdeco-button--circle artdeco-button--inverse artdeco-button--1 artdeco-button--tertiary ember-view coach-shared-hscroll-bar__circle-button coach-shared-hscroll-bar__circle-button--left">        <svg role="none" aria-hidden="true" class="artdeco-button__icon " xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" data-supported-dps="16x16" data-test-icon="chevron-left-small" data-rtl="true"/>
+
+
+<span class="artdeco-button__text">
+    
+</span></button>
+
+      <ul class="axcNwpBeluFwbzrKkisOcfVoVufvahPWFMoKMk&#10;          pv0 ph5">
+          <li class="ZazsUZHblGXCxbNwTCoyDcoIScTKtZarDIJlCeA&#10;              vjJzsoiZsnWKowTsOInIyHaGXgLCnyrVzge&#10;              ">
+            
+                  
+                
+    <button aria-label="T39 xxxxxxxxxxxxxxxx" id="ember442" class="artdeco-button artdeco-button--muted artdeco-button--2 artdeco-button--secondary ember-view coach-shared-hscroll-button__action coach-shared-hscroll-button__action--guide-prompt&#10;        coach-shared-hscroll-button__action--guide-prompt-premium">        <svg role="none" aria-hidden="true" class="artdeco-button__icon " xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" data-supported-dps="16x16" data-test-icon="signal-ai-small"/>
+
+
+<span class="artdeco-button__text">
+    T39 xxxxxxxxxxxxxxxx
+</span></button>
+  
+              
+                
+          </li>
+          <li class="ZazsUZHblGXCxbNwTCoyDcoIScTKtZarDIJlCeA&#10;              &#10;              ">
+            
+                  
+                
+    <button aria-label="T40 xxxxxxxxxxxxxxxx" id="ember443" class="artdeco-button artdeco-button--muted artdeco-button--2 artdeco-button--secondary ember-view coach-shared-hscroll-button__action coach-shared-hscroll-button__action--guide-prompt&#10;        coach-shared-hscroll-button__action--guide-prompt-premium">        <svg role="none" aria-hidden="true" class="artdeco-button__icon " xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" data-supported-dps="16x16" data-test-icon="signal-ai-small"/>
+
+
+<span class="artdeco-button__text">
+    T40 xxxxxxxxxxxxxxxx
+</span></button>
+  
+              
+                
+          </li>
+          <li class="ZazsUZHblGXCxbNwTCoyDcoIScTKtZarDIJlCeA&#10;              &#10;              QnBAAtFXalwEVXguwwwzuroUxENDloSkw">
+            
+                  
+                
+    <button aria-label="T41 xxxxxxxxxxxxxxxx" id="ember444" class="artdeco-button artdeco-button--muted artdeco-button--2 artdeco-button--secondary ember-view coach-shared-hscroll-button__action coach-shared-hscroll-button__action--guide-prompt&#10;        coach-shared-hscroll-button__action--guide-prompt-premium">        <svg role="none" aria-hidden="true" class="artdeco-button__icon " xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" data-supported-dps="16x16" data-test-icon="signal-ai-small"/>
+
+
+<span class="artdeco-button__text">
+    T41 xxxxxxxxxxxxxxxx
+</span></button>
+  
+              
+                
+          </li>
+      </ul>
+
+        <button aria-label="T109 xxxxxxxxxxxxxxx" id="ember441" class="artdeco-button artdeco-button--circle artdeco-button--inverse artdeco-button--1 artdeco-button--tertiary ember-view coach-shared-hscroll-bar__circle-button coach-shared-hscroll-bar__circle-button--right">        <svg role="none" aria-hidden="true" class="artdeco-button__icon " xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" data-supported-dps="16x16" data-test-icon="chevron-right-small" data-rtl="true"/>
+
+
+<span class="artdeco-button__text">
+    
+</span></button>
+    </div>
+  
+            
+  
+          </div>
+        </section>
+    </div>
+  
+          </div>
+  
+
+
+
+
+          
+    <div class="job-details-module">
+            <h2 class="text-heading-large">
+              People you can reach out to
+            </h2>
+            
+    <div class="job-details-connections-card mt4&#10;                job-details-people-who-can-help__section--two-pane artdeco-card ph5 pv4">
+        <div>
+            <div class="display-flex flex-row align-items-center justify-space-between">
+              <span class="job-details-people-who-can-help__connections-card-summary">
+                  
+    <div class="ivm-image-view-model    job-details-people-who-can-help__connections-card-summary-image">
+        <ul class="ivm-image-view-model__img-list--stacked list-style-none display-flex justify-center">
+            <li class="ivm-image-view-model__img-list-item--stacked">
+              
+    <div class="ivm-view-attr__img-wrapper&#10;        &#10;        ">
+
+          <img width="48" loading="lazy" height="48" alt="" id="ember432" class="ivm-view-attr__img--centered ivm-view-attr__img--stacked ivm-view-attr__img--stacked-circle-size-3 EntityPhoto-circle-3-stackedFacepile   evi-image lazy-image ember-view" />
+    </div>
+  
+            </li>
+            <li class="ivm-image-view-model__img-list-item--stacked">
+              
+    <div class="ivm-view-attr__img-wrapper&#10;        &#10;        ">
+
+          <img width="48" loading="lazy" height="48" alt="" id="ember433" class="ivm-view-attr__img--centered ivm-view-attr__img--stacked ivm-view-attr__img--stacked-circle-size-3 EntityPhoto-circle-3-stackedFacepile   evi-image lazy-image ember-view" />
+    </div>
+  
+            </li>
+        </ul>
+
+    </div>
+  
+                  <div class="text-body-small" dir="ltr">
+                    T42 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                  </div>
+              </span>
+                <button id="ember434" class="artdeco-button artdeco-button--muted artdeco-button--2 artdeco-button--secondary ember-view job-details-people-who-can-help__connections-card-summary-card-action">
+<span class="artdeco-button__text">
+    T43 xxxx
+</span></button>
+            </div>
+
+            
+    <div id="ember435" class="ember-view"></div>
+  
+        </div>
+    </div>
+  
+          </div>
+  
+
+
+            
+    <div class="jobs-box--fadein jobs-box--full-width jobs-box--with-cta-large jobs-description&#10;        &#10;        &#10;        &#10;         jobs-description--reformatted&#10;        &#10;         job-details-module">
+
+
+      <article class="jobs-description__container&#10;          ">
+        <div class="jobs-description__content jobs-description-content&#10;            ">
+          <div class="jobs-box__html-content&#10;              EwPwePKjeMvEQulPIfipDPZzocsrlVekk&#10;              t-14 t-normal&#10;              jobs-description-content__text--stretch" id="job-details" tabindex="-1">
+            <h2 class="text-heading-large">
+              About the job
+            </h2>
+
+            <div class="mt4">
+                <p dir="ltr">
+                  <span><p>T44 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p></span><span><p><span><br /></span></p></span><span><p>T45 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p></span><span><p><span><br /></span></p></span><span><p>T46 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p></span><span><p><span><br /></span></p></span><span><p><span><strong>T47 xxxxx</strong></span></p></span><span><p><span><br /></span></p></span><span><p>T48 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx<span class="white-space-pre"> </span><span><strong>T49 xxxxxxxxxxxxxxxxxxxxxxxxxx</strong></span><span class="white-space-pre"> </span>T50 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p></span><span><p><span><br /></span></p></span><span><p>T51 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p></span><span><p><span><br /></span></p></span><span><p>T52 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p></span><span><p><span><br /></span></p></span><span><p><span><strong>T53 xxxxxxxxxxxxxxxxxxxxxxxxxx</strong></span></p></span><span><p><span><br /></span></p></span><span>      <ul><li>T54 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li><li>T55 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li><li>T56 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li><li>T57 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li><li>T58 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li><li>T59 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li><li>T60 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li><li>T61 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li><li>T62 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li><li>T63 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li></ul>
+</span><span><p><span><br /></span></p></span><span><p><span><strong>T64 xxxxxxxxxxxxxxxxxxxxxxxxxx</strong></span></p></span><span><p><span><br /></span></p></span><span>      <ul><li>T65 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li><li>T66 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li><li>T67 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx<span class="white-space-pre"> </span><span><strong>T68 x</strong></span>,<span class="white-space-pre"> </span><span><strong>T69</strong></span><span class="white-space-pre"> </span>T70<span class="white-space-pre"> </span><span><strong>T71 xxxxxxxxxxxxxxxx</strong></span>.</li><li>T72 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li><li>T73 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li><li>T74 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li><li>T75 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li><li>T76 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li><li>T77 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</li></ul>
+</span><span><p><span><br /></span></p></span><span><p><span><br /></span></p></span><span><p><span><strong>T78 xxxxxx</strong></span></p></span><span><p><span><br /></span></p></span><span><p>T79 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p></span><span><p><span><br /></span></p></span>
+                </p>
+            </div>
+          </div>
+          <div class="jobs-description__details">
+          </div>
+        </div>
+      </article>
+    </div>
+  
+
+
+
+
+            <div id="SALARY" class="jobs-details__salary-main-rail-card">
+            </div>
+
+                        
+
+    <div class="job-details-how-you-match-card__container mb4&#10;        artdeco-card&#10;         job-details-module" id="how-you-match-card-container">
+
+
+
+          <section class="pv4 ph5&#10;              ">
+            <div class="display-flex">
+              
+          
+
+    <div class="&#10;              display-flex align-items-center&#10;              flex-column&#10;              ">
+      <div class="display-flex flex-column">
+        <div class="card-upsell-v2__text-container ">
+            <h3 class="text-heading-medium card-upsell-v2__headline&#10;                &#10;                ">
+              T80 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            </h3>
+
+              <p class="card-upsell-v2__subheader t-14">
+                T81 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+              </p>
+
+              
+          
+
+            <div class="card-upsell-v2__social-proof display-flex align-items-flex-start&#10;                ">
+              
+    <div class="ivm-image-view-model   ">
+        <ul class="ivm-image-view-model__img-list--stacked list-style-none display-flex justify-center">
+            <li class="ivm-image-view-model__img-list-item--stacked">
+              
+    <div class="ivm-view-attr__img-wrapper&#10;        &#10;        ">
+
+          <img width="32" loading="lazy" height="32" alt="" id="ember448" class="ivm-view-attr__img--centered ivm-view-attr__img--stacked ivm-view-attr__img--stacked-circle-size-1 EntityPhoto-circle-1-stackedFacepile   evi-image lazy-image ember-view" />
+    </div>
+  
+            </li>
+            <li class="ivm-image-view-model__img-list-item--stacked">
+              
+    <div class="ivm-view-attr__img-wrapper&#10;        &#10;        ">
+
+          <img width="32" loading="lazy" height="32" alt="" id="ember449" class="ivm-view-attr__img--centered ivm-view-attr__img--stacked ivm-view-attr__img--stacked-circle-size-1 EntityPhoto-circle-1-stackedFacepile   evi-image lazy-image ember-view" />
+    </div>
+  
+            </li>
+            <li class="ivm-image-view-model__img-list-item--stacked">
+              
+    <div class="ivm-view-attr__img-wrapper&#10;        &#10;        ">
+
+          <img width="32" loading="lazy" height="32" alt="" id="ember450" class="ivm-view-attr__img--centered ivm-view-attr__img--stacked ivm-view-attr__img--stacked-circle-size-1 EntityPhoto-circle-1-stackedFacepile   evi-image lazy-image ember-view" />
+    </div>
+  
+            </li>
+        </ul>
+
+    </div>
+  
+              <p class="card-upsell-v2__social-proof-text t-12 t-black--light align-self-center">
+                T82 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+              </p>
+            </div>
+
+
+            <a class="eMWyYeILMUrYJIZgAuQnlkRxTXKIjierJvffXfXDA  artdeco-button artdeco-button--premium artdeco-button--secondary &#10;                " href="https://www.linkedin.com/premium/products/" data-test-app-aware-link="">
+              T38 xxxxxxxxxxxxxxxx
+            </a>
+            <p class="text-body-xsmall card-upsell-v2__subtext">
+              T83 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            </p>
+        </div>
+      </div>
+    </div>
+  
+  
+            </div>
+          </section>
+    </div>
+  
+                  
+
+
+
+              <section class="artdeco-card job-details-module">
+
+  
+                
+    <section class="jobs-company jobs-box--fadein mb4" data-view-name="job-details-about-company-module">
+      <div class="jobs-company__box">
+        <h2 class="text-heading-large">
+          About the company
+        </h2>
+
+        <div class="display-flex align-items-center mt5">
+          <div id="ember451" class="artdeco-entity-lockup artdeco-entity-lockup--size-5 ember-view flex-grow-1">
+            <div id="ember452" class="artdeco-entity-lockup__image artdeco-entity-lockup__image--type-square ember-view" type="square">
+              <a href="/company/example-co/life/" id="ember453" class="ember-view link-without-hover-state inline-block" data-view-name="job-details-about-company-logo-link">
+                <img title="T13 xxxxxxxxxxxxxxxx" alt="T110 xxxxxxxxxxxxxxxxxxxxxxxxx" id="ember454" class="evi-image evi-image--standard-dynamic-range ember-view" />
+              </a>
+            
+</div>
+            <div id="ember455" class="artdeco-entity-lockup__content ember-view flex-grow-1">
+              <div id="ember456" class="artdeco-entity-lockup__title ember-view t-20">
+                <a href="/company/example-co/life/" id="ember457" class="ember-view link-without-visited-state inline-block t-black" data-view-name="job-details-about-company-name-link">
+                  T13 xxxxxxxxxxxxxxxx
+                </a>
+              
+</div>
+              <div id="ember458" class="artdeco-entity-lockup__subtitle ember-view t-16">
+                T84 xxxxxxxxxxxxxxxx
+              </div>
+            </div>
+          
+</div>
+          
+    <button class="follow   artdeco-button artdeco-button--secondary ml5" aria-label="T85 xx" aria-pressed="false" type="button">
+          <svg role="none" aria-hidden="true" class="artdeco-button__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" data-supported-dps="16x16" data-test-icon="add-small"/>
+
+        <span aria-hidden="true">T85 xx</span>
+    </button>
+  
+        </div>
+
+        <div class="t-14 mt5">
+          T86 xxxxxxxxxxxxxxxxxxxxxxxxxx
+            <span class="jobs-company__inline-information">
+              T87 xxxxxxxxxxxxxxxx
+            </span>
+            <span class="jobs-company__inline-information">
+              T88 xxxxxxxxxxxxxxxx
+            </span>
+        </div>
+        <p class="jobs-company__company-description text-body-small-open">
+          
+    <div class="xQTTWKsMNoPsQtONCUIpRurpUDkJPUhLdJJk&#10;        inline-show-more-text--is-collapsed&#10;        inline-show-more-text--is-collapsed-with-line-clamp&#10;        &#10;        &#10;        &#10;        " dir="ltr" tabindex="-1">
+
+        T89 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx<br /><br />T90 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx <br /><br />T91 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx<br /><br />T92 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      
+          <span class="inline-show-more-text__link-container-collapsed">
+              <span>…</span>
+            <button class="inline-show-more-text__button&#10;                inline-show-more-text__button--light&#10;                link" aria-expanded="false" role="button" type="button">
+              T93 xxxxx
+            </button>
+          </span>
+
+    </div>
+  
+        </p>
+
+
+
+      </div>
+
+      <div class="jobs-company__footer text-align-center">
+        <a href="/company/example-co/life/" id="ember459" class="ember-view link-without-hover-state block pv3" aria-label="T111 xxxxxxxxxxxxxxxxxxxxxxxxx" data-view-name="job-details-about-company-life-link">
+          Show more
+        </a>
+      </div>
+    </section>
+  
+              
+</section>
+
+        </div>
+      </div>
+
+
+
+      
+    <div id="ember261" class="ember-view"></div>
+
+    <div id="ember262" class="ember-view"><div id="ember263" class="ember-view"></div></div>
+  
+
+      
+  <div id="ember264" class="ember-view"></div>
+
+
+
+
+
+      
+    <div>
+        
+    <div id="ember265" class="ember-view"></div>
+  
+    </div>
+  
+
+
+    </div>
+  
+      </div>
+  
+      </div>
+  
+
+      
+    </div>
+  
+            
+        </div>
+      </div>
+    </div>
+</main>
+</body></html>
