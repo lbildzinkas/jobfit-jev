@@ -26,7 +26,7 @@ LinkedIn changes this markup without notice. Treat every selector here as dated 
 | # | Page | URL shape | Layout |
 |---|---|---|---|
 | 1 | AI job search, two-pane | `www.linkedin.com/jobs/search-results/?currentJobId=<id>&…` | SDUI, `data-sdui-screen="com.linkedin.sdui.flagshipnav.jobs.SemanticJobDetails"` |
-| 2 | Standalone job page | `www.linkedin.com/jobs/view/<id>/?…` | SDUI, `data-sdui-screen="com.linkedin.sdui.flagshipnav.jobs.JobDetails"` |
+| 2 | Standalone job page | `www.linkedin.com/jobs/view/<id>/?…` | SDUI, `data-sdui-screen="com.linkedin.sdui.flagshipnav.jobs.JobDetails"` on an element outside `main` (§3.1) |
 | 3 | Jobs > Recommended for you, two-pane | `www.linkedin.com/jobs/collections/recommended/?currentJobId=<id>` | Classic Ember (many `.ember-view`, no `data-sdui-*`) |
 
 Pages 1 and 2 showed the same posting (identical title, company and description lengths), so their differences are layout differences.
@@ -38,7 +38,7 @@ Method: read-only script evaluation in an already-open tab. No navigation, click
 ### 3.1 Skeleton
 
 - `main` contains everything, including the global nav (`[data-testid="primary-nav"]`) and search typeahead. **Scope every query to the detail root, never to `main`.**
-- **Detail root:** `[data-sdui-screen$=".SemanticJobDetails"]` (search) or `[data-sdui-screen$=".JobDetails"]` (standalone). In the search view it wraps only the detail pane; the result list sits outside it.
+- **Detail root:** `[data-sdui-screen$=".SemanticJobDetails"]` (search) or `[data-sdui-screen$=".JobDetails"]` (standalone). In the search view it wraps only the detail pane; the result list sits outside it. On the live standalone page the screen attribute sits **outside `main`**, so the main-only capture (§7) drops it: `sdui-job-view-standalone.xhtml` carries no `data-sdui-screen`, and detection and rooting there fall back to the `[data-sdui-component]` markers and the nearest common ancestor of the job-id-bearing `JobDetails_*` componentkeys (spec §5.2 steps 4–5).
 - The detail pane is a `div[data-testid="lazy-column"]`. In search, the list is a separate `lazy-column` with `componentkey="SearchResultsMainContent"`.
 - There is no `h1`. Section headings are `h2`.
 - Named components (`data-sdui-component="com.linkedin.sdui.generated.jobseeker.dsl.impl.<name>"`), in document order:
@@ -150,7 +150,7 @@ Sanitization ran **inside the page**, so only sanitized markup ever left the bro
 
 **Load them as XHTML.** SDUI nests `ul` inside `p > span`; an HTML parser silently moves the list out of the description box (an early HTML capture shrank the description to about a quarter of its length). Use `new JSDOM(src, { contentType: 'application/xhtml+xml', url })` or `DOMParser` with `application/xhtml+xml`. The same caveat applies in the extension: read the box's live nodes or its `innerHTML`, never re-parse the enclosing `p`'s `outerHTML` as HTML.
 
-A throwaway reference extractor following §3–§4 found every field on all three fixtures, and its stale-pane check returned `stale-pane` when the URL job id was set to `1000000002` on the SDUI search and classic fixtures.
+A throwaway reference extractor following §3–§4 — rooting the standalone fixture at the common ancestor of its `JobDetails_*` componentkeys, since its `data-sdui-screen` was dropped by the main-only capture — found every field on all three fixtures, and its stale-pane check returned `stale-pane` when the URL job id was set to `1000000002` on all three.
 
 ## 8. Limits of this evidence
 

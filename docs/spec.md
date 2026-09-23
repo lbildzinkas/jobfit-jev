@@ -228,8 +228,8 @@ All selectors live in one data module (`src/reader/selectors.ts`) so a LinkedIn 
 1. **Guard.** Host is `www.linkedin.com` and the path is under `/jobs/`. Else `not_linkedin_job`.
 2. **Job id from the URL.** `currentJobId` query parameter, else `/jobs/view/(\d+)` in the path. Else `no_job_id`.
 3. **JSON-LD (opportunistic).** Parse `script[type="application/ld+json"]` with `@type: JobPosting` whose URL, identifier, or title matches the job. Expected absent on signed-in pages; if found, it supplies fields but the description still goes through the block walker.
-4. **Layout detection.** `[data-sdui-screen]` present → SDUI. Else `.job-details-jobs-unified-top-card__job-title` or `#job-details` present → classic. Else `unknown_layout`.
-5. **Detail root.** SDUI: `[data-sdui-screen$=".SemanticJobDetails"]`, else `[data-sdui-screen$=".JobDetails"]`. Classic: `.jobs-search__job-details`, else `.scaffold-layout__detail`, else `document` scoped by the selectors below. Never query `main` or `document.body` for content.
+4. **Layout detection.** `[data-sdui-screen]` present → SDUI (preferred marker; on the standalone page it sits outside `main`). Else `[data-sdui-component]` present, or any `componentkey` starting with `JobDetails_` → SDUI. Else `.job-details-jobs-unified-top-card__job-title` or `#job-details` present → classic. Else `unknown_layout` — only when neither layout's markers exist.
+5. **Detail root.** SDUI: `[data-sdui-screen$=".SemanticJobDetails"]`, else `[data-sdui-screen$=".JobDetails"]`, else the nearest common ancestor of the job-id-bearing `JobDetails_*` `componentkey` elements (the fallback the standalone fixture needs: its capture keeps only `main`, which does not carry the screen attribute). Classic: `.jobs-search__job-details`, else `.scaffold-layout__detail`, else `document` scoped by the selectors below. Never query `main` or `document.body` for content.
 6. **Stale-pane guard.** The detail pane's job id must equal the URL job id, else `stale_pane` ("The page is still loading this job. Click Analyze again."):
    - SDUI: the id suffix of `[componentkey^="JobDetails_AboutTheJob_"]`.
    - Classic: the id in `.job-details-jobs-unified-top-card__job-title h1 a[href*="/jobs/view/"]`, else `.jobs-apply-button[data-job-id]`.
@@ -481,10 +481,10 @@ Keyboard reachable controls, visible focus, verdict meaning never conveyed by co
 ### 11.1 Unit tests (Vitest)
 
 - **Reader** against the three sanitized fixtures in `test/fixtures/linkedin/`, loaded as XHTML (`new JSDOM(src, { contentType: 'application/xhtml+xml', url })` with each fixture's documented test URL):
-  - layout detection (`sdui`, `sdui`, `classic`);
+  - layout detection (`sdui`, `sdui`, `classic`; the standalone fixture carries no `data-sdui-screen`, so it must detect SDUI through the `[data-sdui-component]` / `JobDetails_` `componentkey` fallback);
   - every field found through the expected selector (placeholder text, so assert the selector, length, and equalities such as title = `document.title` segment);
-  - stale-pane: set the URL job id to `1000000002`, expect `stale_pane` on the SDUI search and classic fixtures;
-  - negative cases by mutating fixtures in the test: remove the description, remove the `componentkey`, strip `data-sdui-screen`, shorten the description below 300 characters, expect the right loud failure;
+  - stale-pane: set the URL job id to `1000000002`, expect `stale_pane` on all three fixtures;
+  - negative cases by mutating fixtures in the test: remove the description, remove the `componentkey` (no pane id → `stale_pane`), strip every SDUI marker together — `data-sdui-screen`, `data-sdui-component`, and `componentkey` — to reach `unknown_layout`, shorten the description below 300 characters, expect the right loud failure;
   - the block walker keeps `ul/li` inside the SDUI description (a regression test for the HTML re-parse trap).
 - **Atomizer** on hand-written synthetic postings (the fixtures contain placeholder text only): heading tiers, cue overrides, bullets vs sentences, years parsing, eligibility and protected routing.
 - **CV parser and stripper** on synthetic CVs (text fixtures and small generated PDFs): header detection, PII sweep across the whole CV, protected-attribute withholding, line IDs, date parsing, scanned-PDF refusal. A property-style test asserts that no email, phone, URL, or confirmed name string survives into any request state.
