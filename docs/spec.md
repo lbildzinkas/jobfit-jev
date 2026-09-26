@@ -1,6 +1,6 @@
 # jobfit-jev specification
 
-Status: **specification only; implementation pending.**
+Status: **M0 (scaffold) built; M1 onward pending** (§15).
 Written 2026-09-23. This document is the source of truth for the first implementation.
 When the code and this spec disagree, fix one of them in the same change; do not let them drift.
 
@@ -90,6 +90,7 @@ There is **no declared `content_scripts` entry**. The page reader runs only when
 {
   "manifest_version": 3,
   "name": "jobfit-jev",
+  "version": "0.0.0",
   "permissions": ["activeTab", "scripting", "storage"],
   "host_permissions": ["https://openrouter.ai/*"],
   "optional_host_permissions": ["https://api.typesafe.ai/*"],
@@ -99,6 +100,7 @@ There is **no declared `content_scripts` entry**. The page reader runs only when
 }
 ```
 
+- The manifest lives in `public/manifest.json` and is copied into the build unchanged. `version` is required by Chrome and must equal `package.json`'s version; a test checks it and the rest of this block.
 - **`activeTab` + `scripting`**: the owner's click on the toolbar action grants temporary access to the active tab; the popup's Analyze button then runs one `executeScript` against it. No `https://www.linkedin.com/*` host permission is requested.
 - **`host_permissions`** for OpenRouter: extension service workers with host permission are exempt from CORS. TypeSafe direct refuses browser preflight, so it is requested as an **optional** permission only when the owner selects that route (live check 5 in §13 confirms it works from the service worker).
 - No `tabs`, `webNavigation`, `webRequest`, `cookies`, `identity`, `sidePanel`, or `<all_urls>` in the first release.
@@ -107,7 +109,7 @@ There is **no declared `content_scripts` entry**. The page reader runs only when
 ### 3.3 Network rule
 
 - Only the service worker calls `fetch`, and only to the selected Jev route's endpoint.
-- The popup, full tab, and page reader never make network requests. A test fails the build if `fetch`, `XMLHttpRequest`, `WebSocket`, or `EventSource` appears outside the service worker's provider module.
+- The popup, full tab, and page reader never make network requests. A test fails the build if `fetch`, `XMLHttpRequest`, `WebSocket`, or `EventSource` appears outside the service worker's provider module, `src/background/provider/`.
 - No analytics, telemetry, remote fonts, CDNs, or remote code. Everything is bundled.
 
 ### 3.4 Storage
@@ -136,10 +138,10 @@ tab       verdicts, coverage range, rollups, sentences (code) ─► ledger; pop
 
 Confirmation and review happen in the full tab because a popup closes when it loses focus and would lose the owner's edits.
 
-### 3.6 Suggested stack
+### 3.6 Stack
 
-TypeScript (strict), a bundler that emits plain MV3 files (for example Vite), Vitest with jsdom for tests, zod for response validation, and `pdfjs-dist` (Apache-2.0) for PDF text extraction.
-UI framework is an implementation choice (open question Q-D1, §14); keep the core library framework-free so every rule is unit-testable.
+TypeScript (strict), Vite emitting plain MV3 files, React with Tailwind CSS for the popup and the full tab (Q-D1, §14), Vitest with jsdom for tests, ESLint and Prettier, zod for response validation, and `pdfjs-dist` (Apache-2.0) for PDF text extraction.
+The core library (`src/core/`) stays framework-free so every rule is unit-testable; lint forbids React imports and the `chrome`, `window`, and `document` globals there.
 
 ---
 
@@ -491,7 +493,7 @@ Keyboard reachable controls, visible focus, verdict meaning never conveyed by co
 - **Request builders**: snapshot tests of request 1 and 2 bodies; option caps (≤ 255 per Choice); budget splitting; no OpenRouter-only fields on the TypeSafe route.
 - **Provider layer** with a mocked `fetch`: every row of §9, retry and backoff timing, `Retry-After` handling, validation failures, no silent route change.
 - **Verdict and aggregation** pure functions: each rule in §8.1, years arithmetic with overlapping roles, coverage range edge cases (zero required, all unclear), eligibility comparisons.
-- **Static checks**: no network APIs outside the provider module; no `storage.sync`; no `content_scripts` in the manifest; no LinkedIn host permission.
+- **Static checks** (`test/static/`): no network APIs outside the provider module; no `storage.sync`; no `content_scripts` in the manifest; no LinkedIn host permission. Alongside them: the manifest matches §3.2, the build emits the files the manifest names, and every bundled package is permissively licensed and listed in `THIRD_PARTY_NOTICES.md`.
 
 ### 11.2 Manual checks in Brave
 
@@ -547,7 +549,7 @@ Checks 1–5, 14 and 15 gate milestone M4; checks 6–12 gate M7.
 
 ## 14. Open design questions
 
-- **Q-D1 UI framework.** Plain TypeScript with small components, or React (with Tailwind) for the full tab. Keep the core library framework-free either way.
+- **Q-D1 UI framework.** *Resolved:* React with Tailwind CSS for the popup and the full tab, bundled with Vite into plain MV3 files. The core library stays framework-free (§3.6).
 - **Q-D2 History default.** Off by default (this spec) or on; and whether storing confirmed atom text in history is acceptable under the "no raw description persistence" rule (this spec assumes yes, since atoms are owner-confirmed requirement lines, not the description).
 - **Q-D3 Block walker vs Turndown.** Start with the custom walker; adopt Turndown only if headings and bullets are lost on real postings.
 - **Q-D4 Thresholds.** The 0.60 / 0.30 / 0.70 / 0.15 values are vendor-cookbook starting points; replace them after calibration (§11.3).
@@ -558,16 +560,16 @@ Checks 1–5, 14 and 15 gate milestone M4; checks 6–12 gate M7.
 
 ## 15. Milestones
 
-Implementation is **pending**; nothing below is started. Each milestone ends with its tests passing and this spec updated where reality differed.
+Each milestone ends with its tests passing and this spec updated where reality differed.
 
-| # | Milestone | Scope | Done when |
-|---|---|---|---|
-| M0 | Scaffold | TypeScript, bundler, manifest (§3.2), Vitest + jsdom, lint, static checks (§11.1), `THIRD_PARTY_NOTICES.md` | Unpacked build loads in Brave; empty popup and tab open |
-| M1 | Page reader | `selectors.ts`, reader (§5), block walker, loud failures | Fixture tests pass on all three layouts including stale-pane and negative cases; manual check on real postings |
-| M2 | CV and setup | pdf.js import, sectioning, stripping (§4.3), first-run setup and settings (§4), storage access levels | Stripping tests pass; parsed-CV confirmation works on the owner's CV |
-| M3 | Atoms | Atomizer (§6.1) and confirmation UI (§6.3) | Atomizer tests pass; the owner can confirm atoms for a real posting |
-| M4 | Jev client | Provider layer, validation, retries, caching, test-key (§7.1, §9) | Live checks 1–5, 14, 15 done and recorded; provider tests pass |
-| M5 | Assessment | Requests 1 and 2, pre-send review, verdicts, years, coverage range, eligibility (§7–§8) | End-to-end assessment on a real posting with correct scoping of tiers and eligibility |
-| M6 | Hybrid UI | Popup summary, full-tab ledger, correction mode, history (§10, §8.6) | The flows in §10 work in Brave; corrections recompute the header |
-| M7 | Calibration | Labeled sample and threshold sweep (§11.3) | Live checks 6–12 done; thresholds recorded with the model snapshot |
-| M8 | Hardening | Accessibility pass, error-path polish, docs | The owner uses it on real postings for a week without a silent failure |
+| # | Milestone | Scope | Done when | Status |
+|---|---|---|---|---|
+| M0 | Scaffold | TypeScript, bundler, manifest (§3.2), Vitest + jsdom, lint, static checks (§11.1), `THIRD_PARTY_NOTICES.md` | Unpacked build loads in Brave; empty popup and tab open | Built; loads headless, owner's Brave check pending |
+| M1 | Page reader | `selectors.ts`, reader (§5), block walker, loud failures | Fixture tests pass on all three layouts including stale-pane and negative cases; manual check on real postings | Not started |
+| M2 | CV and setup | pdf.js import, sectioning, stripping (§4.3), first-run setup and settings (§4), storage access levels | Stripping tests pass; parsed-CV confirmation works on the owner's CV | Not started |
+| M3 | Atoms | Atomizer (§6.1) and confirmation UI (§6.3) | Atomizer tests pass; the owner can confirm atoms for a real posting | Not started |
+| M4 | Jev client | Provider layer, validation, retries, caching, test-key (§7.1, §9) | Live checks 1–5, 14, 15 done and recorded; provider tests pass | Not started |
+| M5 | Assessment | Requests 1 and 2, pre-send review, verdicts, years, coverage range, eligibility (§7–§8) | End-to-end assessment on a real posting with correct scoping of tiers and eligibility | Not started |
+| M6 | Hybrid UI | Popup summary, full-tab ledger, correction mode, history (§10, §8.6) | The flows in §10 work in Brave; corrections recompute the header | Not started |
+| M7 | Calibration | Labeled sample and threshold sweep (§11.3) | Live checks 6–12 done; thresholds recorded with the model snapshot | Not started |
+| M8 | Hardening | Accessibility pass, error-path polish, docs | The owner uses it on real postings for a week without a silent failure | Not started |
