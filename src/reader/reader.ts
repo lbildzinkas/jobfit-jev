@@ -86,7 +86,13 @@ export function extractJobPosting(
   // 3. JSON-LD (opportunistic). Expected absent on signed-in pages; when
   //    found it supplies fields, but the description still comes from the
   //    block walker over the live DOM.
-  const jsonld = readJsonldJobPosting(doc, jobUrl.jobId, health)
+  const titleSegments = docTitleSegments(doc)
+  const jsonld = readJsonldJobPosting(
+    doc,
+    jobUrl.jobId,
+    titleSegments[0] ?? '',
+    health,
+  )
 
   // 4. Layout detection. `unknown_layout` only when neither layout's markers
   //    exist; a matching JobPosting script alone is the jsonld layout.
@@ -115,8 +121,6 @@ export function extractJobPosting(
   if (paneId !== jobUrl.jobId) return done(false, 'stale_pane')
 
   // 7. Fields, in fallback order (docs/spec.md §5.2 step 7).
-  const titleSegments = docTitleSegments(doc)
-
   const description = readDescription(root, layout, jobUrl.jobId, health)
   if (description === null) return done(false, 'no_description')
   found.description = description
@@ -624,11 +628,13 @@ interface JsonldJob {
 }
 
 /** Parse `script[type="application/ld+json"]` blocks and return the first
- *  JobPosting whose URL or identifier matches this job. Never throws: JSON-LD
- *  is opportunistic and expected absent on signed-in pages. */
+ *  JobPosting whose URL, identifier, or title matches this job (spec §5.2
+ *  step 3). Never throws: JSON-LD is opportunistic and expected absent on
+ *  signed-in pages. */
 function readJsonldJobPosting(
   doc: Document,
   jobId: string,
+  docTitle: string,
   health: SelectorHit[],
 ): JsonldJob | null {
   let matched = 0
@@ -641,7 +647,7 @@ function readJsonldJobPosting(
       continue
     }
     for (const node of jobPostingNodes(data)) {
-      if (!jsonldMatchesJob(node, jobId)) continue
+      if (!jsonldMatchesJob(node, jobId, docTitle)) continue
       matched++
       found = {
         title: nonEmpty(jsonldString(node.title)),
@@ -678,7 +684,11 @@ function jobPostingNodes(data: unknown): JsonldNode[] {
   return nodes
 }
 
-function jsonldMatchesJob(node: JsonldNode, jobId: string): boolean {
+function jsonldMatchesJob(
+  node: JsonldNode,
+  jobId: string,
+  docTitle: string,
+): boolean {
   const identifiers = Array.isArray(node.identifier)
     ? node.identifier
     : node.identifier === undefined
@@ -695,7 +705,9 @@ function jsonldMatchesJob(node: JsonldNode, jobId: string): boolean {
   })
   if (identifierMatch) return true
   const url = jsonldString(node.url)
-  return url?.includes(jobId) ?? false
+  if (url?.includes(jobId) ?? false) return true
+  const title = nonEmpty(jsonldString(node.title))
+  return title !== undefined && title === normalizeText(docTitle)
 }
 
 function jsonldString(value: unknown): string | undefined {

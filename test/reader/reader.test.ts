@@ -362,6 +362,32 @@ describe('JSON-LD (opportunistic)', () => {
     })
   })
 
+  it('matches a JobPosting that carries only a title', () => {
+    // No identifier or url: only the title criterion can match, against
+    // document.title segment 1 with the "(3) " count prefix stripped.
+    const doc = syntheticDocument(
+      `<!doctype html><html><head><title>(3) Engineer | LinkedIn</title></head><body>
+        <div data-sdui-screen="x.SemanticJobDetails">
+          <p>Engineer</p>
+          <div componentkey="JobDetails_AboutTheJob_1000000001">
+            <span data-testid="expandable-text-box">${descriptionHtml}</span>
+          </div>
+        </div>
+        <script type="application/ld+json">
+          {"@type":"JobPosting","title":"Engineer","hiringOrganization":{"name":"Example Co"}}
+        </script>
+      </body></html>`,
+      'https://www.linkedin.com/jobs/search-results/?currentJobId=1000000001',
+    )
+    const result = extractJobPosting(doc, fixtureUrl('search'))
+    expect(result.ok).toBe(true)
+    expect(result.company).toEqual({
+      value: 'Example Co',
+      selector: stepLabels.jsonldCompany,
+      confidence: 'low',
+    })
+  })
+
   it('is the layout when no DOM markers exist', () => {
     const doc = syntheticDocument(
       `<!doctype html><html><head><title>Engineer</title></head><body>${jsonldScript}</body></html>`,
