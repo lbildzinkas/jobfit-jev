@@ -2,7 +2,7 @@
 
 A private-use Brave/Chromium (Manifest V3) extension that assesses your own CV against the LinkedIn job you have open, using TypeSafe's Jev typed-decision model.
 
-**Status: project scaffold only.** The extension builds and loads with an empty popup and full tab; the job reader, CV import, and assessment are not built yet (see the milestones in [`docs/spec.md`](docs/spec.md)).
+**Status: scaffold and job reader built (M0–M1).** The extension builds and loads with an empty popup and full tab; the LinkedIn job reader exists but no Analyze button yet, and CV import and assessment are not built (see the milestones in [`docs/spec.md`](docs/spec.md)).
 
 ## What it will do
 

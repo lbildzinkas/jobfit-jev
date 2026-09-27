@@ -2,7 +2,7 @@
 
 This file is the project's committed home for project-intrinsic agent knowledge: build, test, release, architecture, and sharp-edge notes that should travel with the code.
 
-- Status: M0 scaffold only (empty popup and full tab). [`docs/spec.md`](docs/spec.md) is the source of truth for scope, architecture, and milestones (§15 tracks status); update it in the same change when implementation diverges.
+- Status: M0 scaffold and M1 page reader built; popup and tab still empty. [`docs/spec.md`](docs/spec.md) is the source of truth for scope, architecture, and milestones (§15 tracks status); update it in the same change when implementation diverges.
 - Commands: `npm run check` (ESLint, Prettier check, `tsc -b`, Vitest) must pass before every commit; `npm run build` writes the unpacked extension to `dist/` (`npm run build:watch` rebuilds on change). Load it in Brave via `brave://extensions` → Developer mode → Load unpacked → `dist/`, and press the card's reload icon after each rebuild. The full tab is `chrome-extension://<id>/app.html`, also reachable from the popup.
 - Layout: `public/manifest.json` (copied verbatim), `popup.html`/`app.html` → `src/popup/`, `src/app/` (React + Tailwind), service worker `src/background/`. The pure rules go in a framework-free `src/core/` (lint forbids React and browser globals there); the LinkedIn page reader lives in `src/reader/` (`selectors.ts` is the single selector data module; spec §5). Network APIs are allowed only under `src/background/provider/`; `test/static/` enforces this and the other spec §11.1 checks.
 - TypeScript stays on 6.0.x: typescript-eslint does not support TypeScript 7 yet.

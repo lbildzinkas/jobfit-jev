@@ -213,7 +213,7 @@ interface ExtractionResult {
   title?: Field
   company?: Field
   location?: Field
-  workplaceType?: Field            // 'Remote' | 'Hybrid' | 'On-site' | 'unknown'
+  workplaceType?: 'Remote' | 'Hybrid' | 'On-site' | 'unknown'
   description?: { blocks: Block[], charCount: number, selector: string }
   health: SelectorHit[]            // every selector tried, in order, and whether it matched
 }
