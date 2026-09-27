@@ -206,14 +206,14 @@ The page reader is our own code. It borrows two MIT-licensed selector lists as s
 ```ts
 interface ExtractionResult {
   ok: boolean
-  failure?: 'not_linkedin_job' | 'no_job_id' | 'unknown_layout' | 'stale_pane' | 'no_description' | 'description_too_short' | 'no_title'
+  failure?: 'not_linkedin_job' | 'no_job_id' | 'unknown_layout' | 'stale_pane' | 'no_description' | 'description_too_short' | 'no_title' | 'low_confidence_fields' | 'company_mismatch'
   layout: 'sdui' | 'classic' | 'jsonld' | 'unknown'
   url: { jobId: string, source: 'currentJobId' | 'path' }
   paneJobId?: string
   title?: Field
   company?: Field
   location?: Field
-  workplaceType?: Field            // 'Remote' | 'Hybrid' | 'On-site' | 'unknown'
+  workplaceType?: 'Remote' | 'Hybrid' | 'On-site' | 'unknown'
   description?: { blocks: Block[], charCount: number, selector: string }
   health: SelectorHit[]            // every selector tried, in order, and whether it matched
 }
@@ -230,7 +230,7 @@ All selectors live in one data module (`src/reader/selectors.ts`) so a LinkedIn 
 1. **Guard.** Host is `www.linkedin.com` and the path is under `/jobs/`. Else `not_linkedin_job`.
 2. **Job id from the URL.** `currentJobId` query parameter, else `/jobs/view/(\d+)` in the path. Else `no_job_id`.
 3. **JSON-LD (opportunistic).** Parse `script[type="application/ld+json"]` with `@type: JobPosting` whose URL, identifier, or title matches the job. Expected absent on signed-in pages; if found, it supplies fields but the description still goes through the block walker.
-4. **Layout detection.** `[data-sdui-screen]` present → SDUI (preferred marker; on the standalone page it sits outside `main`). Else `[data-sdui-component]` present, or any `componentkey` starting with `JobDetails_` → SDUI. Else `.job-details-jobs-unified-top-card__job-title` or `#job-details` present → classic. Else `unknown_layout` — only when neither layout's markers exist.
+4. **Layout detection.** `[data-sdui-screen]` present → SDUI (preferred marker; on the standalone page it sits outside `main`). Else `[data-sdui-component]` present, or any `componentkey` starting with `JobDetails_` → SDUI. Else `.job-details-jobs-unified-top-card__job-title` or `#job-details` present → classic. Else a matched JSON-LD JobPosting (step 3) alone → jsonld. Else `unknown_layout` — only when neither layout's markers exist and no JobPosting matched.
 5. **Detail root.** SDUI: `[data-sdui-screen$=".SemanticJobDetails"]`, else `[data-sdui-screen$=".JobDetails"]`, else the nearest common ancestor of the `JobDetails_*` `componentkey` elements — they bear the **pane's** job id, which differs from the URL id exactly in the stale state step 6 catches, so collect them without filtering by the URL id (this is the fallback the standalone fixture needs: its capture keeps only `main`, which does not carry the screen attribute). Classic: `.jobs-search__job-details`, else `.scaffold-layout__detail`, else `document` scoped by the selectors below. Never query `main` or `document.body` for content.
 6. **Stale-pane guard.** The detail pane's job id must equal the URL job id, else `stale_pane` ("The page is still loading this job. Click Analyze again."):
    - SDUI: the id suffix of `[componentkey^="JobDetails_AboutTheJob_"]`.
@@ -260,9 +260,9 @@ Voyager or guest `jobs-guest` endpoints, any `fetch` to LinkedIn, `<code>` hydra
 Extraction is **unreliable** and nothing is scored when any of these holds:
 
 - any `failure` above;
-- the description has fewer than 300 characters or fewer than 3 blocks;
-- the description came only from the "longest box" fallback **and** the title came only from `document.title` (two low-confidence fields together);
-- the title and company cross-check disagrees on SDUI.
+- the description has fewer than 300 characters or fewer than 3 blocks (`description_too_short`);
+- the description came only from the "longest box" fallback **and** the title came only from `document.title` (two low-confidence fields together, `low_confidence_fields`);
+- the title and company cross-check disagrees on SDUI (`company_mismatch`).
 
 The popup shows the reason in plain words, the layout detected, and which selectors failed (from `health`), plus "Report this layout" instructions pointing at the fixture re-capture process in `linkedin-structure.md` §7.
 Missing optional fields (location, workplace type) do not block; they show as "not read".
@@ -565,7 +565,7 @@ Each milestone ends with its tests passing and this spec updated where reality d
 | # | Milestone | Scope | Done when | Status |
 |---|---|---|---|---|
 | M0 | Scaffold | TypeScript, bundler, manifest (§3.2), Vitest + jsdom, lint, static checks (§11.1), `THIRD_PARTY_NOTICES.md` | Unpacked build loads in Brave; empty popup and tab open | Built; loads headless, owner's Brave check pending |
-| M1 | Page reader | `selectors.ts`, reader (§5), block walker, loud failures | Fixture tests pass on all three layouts including stale-pane and negative cases; manual check on real postings | Not started |
+| M1 | Page reader | `selectors.ts`, reader (§5), block walker, loud failures | Fixture tests pass on all three layouts including stale-pane and negative cases; manual check on real postings | Built; fixture tests green; owner's manual check on real postings pending |
 | M2 | CV and setup | pdf.js import, sectioning, stripping (§4.3), first-run setup and settings (§4), storage access levels | Stripping tests pass; parsed-CV confirmation works on the owner's CV | Not started |
 | M3 | Atoms | Atomizer (§6.1) and confirmation UI (§6.3) | Atomizer tests pass; the owner can confirm atoms for a real posting | Not started |
 | M4 | Jev client | Provider layer, validation, retries, caching, test-key (§7.1, §9) | Live checks 1–5, 14, 15 done and recorded; provider tests pass | Not started |
