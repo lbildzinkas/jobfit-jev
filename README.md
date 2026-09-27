@@ -2,7 +2,7 @@
 
 A private-use Brave/Chromium (Manifest V3) extension that assesses your own CV against the LinkedIn job you have open, using TypeSafe's Jev typed-decision model.
 
-**Status: spec only; implementation pending.**
+**Status: project scaffold only.** The extension builds and loads with an empty popup and full tab; the job reader, CV import, and assessment are not built yet (see the milestones in [`docs/spec.md`](docs/spec.md)).
 
 ## What it will do
 
@@ -17,6 +17,19 @@ A private-use Brave/Chromium (Manifest V3) extension that assesses your own CV a
 - [`docs/spec.md`](docs/spec.md): the specification: boundaries, architecture, extraction, Jev requests, verdict rules, UI, errors, tests, milestones, open questions.
 - [`docs/jev-guide.md`](docs/jev-guide.md): how Jev works, verified API shapes, design patterns, and the worked mapping for this extension.
 - [`docs/linkedin-structure.md`](docs/linkedin-structure.md): signed-in LinkedIn job page structure and selectors, with sanitized fixtures in [`test/fixtures/linkedin/`](test/fixtures/linkedin/).
+- [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md): licenses of the packages bundled into the extension and of any borrowed code.
+
+## Development
+
+Requires Node.js 22.22+, 24.15+, or 26+ (see `engines` in `package.json`).
+
+```sh
+npm install
+npm run build   # writes the unpacked extension to dist/
+npm run check   # lint, format check, typecheck, tests
+```
+
+To load it in Brave (or another Chromium browser): open `brave://extensions`, turn on **Developer mode**, choose **Load unpacked**, and select the `dist/` folder. After rebuilding, press the reload icon on the extension's card.
 
 ## License
 
