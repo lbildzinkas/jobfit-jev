@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest'
 import {
   findNetworkApiUses,
   findStorageSyncUses,
+  findWebStorageUses,
   listShippedScripts,
   providerModuleDir,
   readRepoFile,
@@ -32,6 +33,10 @@ describe('shipped source', () => {
 
   it('never uses chrome.storage.sync', () => {
     expect(violations(shippedScripts, findStorageSyncUses)).toEqual([])
+  })
+
+  it('never uses web storage or IndexedDB', () => {
+    expect(violations(shippedScripts, findWebStorageUses)).toEqual([])
   })
 })
 

@@ -8,7 +8,8 @@ const rootDir = import.meta.dirname
 
 // One build emits the unpacked extension into dist/: manifest.json (copied from
 // public/), popup.html, app.html, and background.js at the root, where the
-// manifest expects them, with page bundles under assets/.
+// manifest expects them, with page bundles and the pdf.js worker under
+// assets/.
 export default defineConfig({
   base: './',
   plugins: [react(), tailwindcss()],
@@ -28,6 +29,12 @@ export default defineConfig({
           chunk.name === 'background'
             ? 'background.js'
             : 'assets/[name]-[hash].js',
+        // The pdf.js worker ships as a .mjs asset; a .js name gets it served
+        // with a JavaScript MIME type from the extension's own origin.
+        assetFileNames: (asset) =>
+          asset.names.some((name) => name.endsWith('.mjs'))
+            ? 'assets/[name]-[hash].js'
+            : 'assets/[name]-[hash][extname]',
       },
     },
   },

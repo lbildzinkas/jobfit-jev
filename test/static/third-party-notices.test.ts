@@ -13,6 +13,11 @@ const listedPackages = new Set(
     .map((line) => line.slice('### '.length).trim()),
 )
 
+// pdfjs-dist's optional @napi-rs/canvas is a native Node.js addon that pdf.js
+// loads through createRequire only when running under Node.js; the browser
+// build never imports it, so it is not bundled into the extension.
+const nodeOnlyPackages = /^@napi-rs\/canvas(?:-|$)/
+
 const bundledPackages = Object.entries(lockfile.packages)
   .filter(([path, entry]) => path !== '' && entry.dev !== true)
   .map(([path, entry]) => ({
@@ -21,10 +26,13 @@ const bundledPackages = Object.entries(lockfile.packages)
     ),
     license: entry.license,
   }))
+  .filter(({ name }) => !nodeOnlyPackages.test(name))
 
 describe('bundled packages', () => {
-  it('include the UI runtime', () => {
-    expect(bundledPackages.map(({ name }) => name)).toContain('react')
+  it('include the UI runtime and the PDF reader', () => {
+    expect(bundledPackages.map(({ name }) => name)).toEqual(
+      expect.arrayContaining(['react', 'pdfjs-dist']),
+    )
   })
 
   it('use MIT, Apache-2.0, or BSD licenses', () => {
