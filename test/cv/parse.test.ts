@@ -282,6 +282,22 @@ describe('sectioning', () => {
       'Open-Source Maintainership',
     )
   })
+
+  it('keeps a layout heading followed by a bullet that contains a year range', () => {
+    const lines = cvLines([
+      person.name,
+      ['Summary', 14],
+      'Engineer.',
+      ['Grants and Prizes', 14],
+      '• Won the 2019 – 2021 platform excellence grant.',
+    ])
+    const { parsed } = parseNewCv(lines)
+    expect(parsed.sections[1]).toMatchObject({
+      kind: 'other',
+      heading: 'Grants and Prizes',
+      source: 'layout',
+    })
+  })
 })
 
 describe('roles', () => {
@@ -342,6 +358,31 @@ describe('roles', () => {
     expect(role).toMatchObject({ datesUnparsed: true })
     expect(role?.dates).toBeUndefined()
     expect(role?.header).toHaveLength(2)
+  })
+
+  it('keeps a bullet that merely contains a year range inside the role', () => {
+    const lines = cvLines([
+      person.name,
+      ['Experience', 12],
+      'Staff Engineer, Northwind Payments',
+      'Jan 2021 – Present',
+      '• Led the 2019 – 2021 migration project.',
+      '• Built the ledger service.',
+    ])
+    const { parsed } = parseNewCv(lines)
+    expect(parsed.stripped.roles).toHaveLength(1)
+    expect(parsed.stripped.roles[0]?.header.map((line) => line.text)).toEqual([
+      'Staff Engineer, Northwind Payments',
+      'Jan 2021 – Present',
+    ])
+    expect(parsed.stripped.roles[0]?.lines.map((line) => line.text)).toEqual([
+      '• Led the 2019 – 2021 migration project.',
+      '• Built the ledger service.',
+    ])
+    expect(parsed.stripped.roles[0]?.dates).toEqual({
+      start: { year: 2021, month: 1 },
+      end: 'present',
+    })
   })
 })
 

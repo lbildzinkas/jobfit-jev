@@ -11,11 +11,12 @@ import {
 } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { App } from '../../src/app/app'
+import { createStoredCv } from '../../src/core/cv/stored'
 import type { PdfText } from '../../src/core/cv/types'
 import { defaultSettings, type StoredCv } from '../../src/core/settings'
-import { person } from '../cv/synthetic'
+import { cvLines, person } from '../cv/synthetic'
 import { installFakeChrome } from '../support/fake-chrome'
-import { completeSetup, fakeKey, importedCv } from './setup-data'
+import { completeSetup, fakeKey, importedCv, now } from './setup-data'
 
 const readCvPdf = vi.fn<(bytes: Uint8Array) => Promise<PdfText>>()
 vi.mock('../../src/cv-import/browser-pdfjs', () => ({ readCvPdf }))
@@ -251,6 +252,42 @@ describe('parsed-CV confirmation', () => {
       name: 'Body — can be sent after stripping',
     })
     expect(within(body).getByText('Senior Software Engineer')).toBeTruthy()
+  })
+
+  it('offers the release only on detected spans, not owner-confirmed ones', async () => {
+    const made = createStoredCv({
+      fileName: 'synthetic-cv.pdf',
+      source: 'pdf',
+      pdfBase64: 'JVBERi0xLjQ=',
+      lines: cvLines([
+        [person.name, 20],
+        ['Summary', 13],
+        `Backend engineer; office at ${person.address}; docs at ${person.website}/sdk.`,
+      ]),
+      hasImageOnFirstPage: false,
+      now,
+    })
+    installFakeChrome({
+      settings: defaultSettings,
+      apiKeys: { openrouter: fakeKey },
+      cv: {
+        ...made,
+        corrections: { ...made.corrections, addresses: [person.address] },
+      },
+    })
+    render(<App />)
+    await screen.findByRole('heading', { name: 'Check what was parsed' })
+
+    expect(
+      screen.getByRole('button', {
+        name: `not personal: ${person.website}/sdk`,
+      }),
+    ).toBeTruthy()
+    expect(
+      screen.queryByRole('button', {
+        name: `not personal: ${person.address}`,
+      }),
+    ).toBeNull()
   })
 })
 

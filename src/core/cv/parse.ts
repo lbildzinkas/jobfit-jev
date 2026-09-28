@@ -3,7 +3,7 @@
 // protected-attribute withholding, and line IDs. Deterministic: the same
 // lines and corrections always give the same result.
 
-import { isDateLine, parseDateRange } from './dates'
+import { isRoleDateLine, parseDateRange } from './dates'
 import { findPii, removeSpans, type SweepTerms } from './pii'
 import { findProtected } from './protected'
 import {
@@ -266,7 +266,7 @@ function splitRoles(lines: IdLine[]): {
   roles: StrippedRole[]
 } {
   const dateIndexes = lines.flatMap((line, index) =>
-    isDateLine(line.text) ? [index] : [],
+    isRoleDateLine(line.text) ? [index] : [],
   )
   if (dateIndexes.length === 0) {
     const [first, ...rest] = lines
@@ -321,7 +321,7 @@ function isRoleHeaderLike(line: IdLine | undefined): boolean {
     line.text.length <= maxRoleHeaderChars &&
     !/^[•▪◦·*–-]/.test(line.text) &&
     !line.text.endsWith('.') &&
-    !isDateLine(line.text)
+    !isRoleDateLine(line.text)
   )
 }
 

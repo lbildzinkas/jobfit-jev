@@ -79,6 +79,20 @@ export function isDateLine(text: string): boolean {
   )
 }
 
+const maxRoleDateLineChars = 90
+
+// A role's dates sit on a header-shaped line: a bullet or sentence that
+// merely contains a range ("• Led the 2019 – 2021 migration.") is body
+// text, not a role boundary.
+export function isRoleDateLine(text: string): boolean {
+  return (
+    isDateLine(text) &&
+    text.length <= maxRoleDateLineChars &&
+    !/^[•▪◦·*–-]/.test(text) &&
+    !text.endsWith('.')
+  )
+}
+
 export function parseDateRange(text: string): DateRange | undefined {
   const since = sincePattern.exec(text)?.[1]
   if (since !== undefined) {

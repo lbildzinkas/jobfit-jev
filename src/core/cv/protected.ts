@@ -219,7 +219,7 @@ const phrases: Rule[] = [
 const labelPatterns = labels.map(([category, terms]) => ({
   category,
   pattern: new RegExp(
-    `(?:^|[|·•]\\s*)(${terms.join('|')})\\s*(?:\\([^)]*\\)\\s*)?[:：]\\s*\\S`,
+    `(?:^|[|·•,;–—]\\s*)(${terms.join('|')})\\s*(?:\\([^)]*\\)\\s*)?[:：]\\s*\\S`,
     'iu',
   ),
 }))

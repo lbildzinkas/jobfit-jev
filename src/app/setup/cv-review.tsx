@@ -514,8 +514,7 @@ function Highlighted({
   let cursor = 0
   spans.forEach((span, position) => {
     parts.push(text.slice(cursor, span.start))
-    const isReleasable =
-      onRelease !== undefined && span.kind !== 'name' && span.kind !== 'private'
+    const isReleasable = onRelease !== undefined && !span.ownerConfirmed
     parts.push(
       <mark
         key={position}

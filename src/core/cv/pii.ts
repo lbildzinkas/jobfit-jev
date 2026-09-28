@@ -114,6 +114,7 @@ function findLiteral(text: string, value: string, kind: PiiKind): PiiSpan[] {
     start: match.index,
     end: match.index + match[0].length,
     text: match[0],
+    ownerConfirmed: true,
   }))
 }
 
@@ -125,7 +126,7 @@ function trimSpan(
 ): PiiSpan | undefined {
   const text = raw.replace(/[.,;:)\]]+$/u, '').trimEnd()
   if (text === '') return undefined
-  return { kind, start, end: start + text.length, text }
+  return { kind, start, end: start + text.length, text, ownerConfirmed: false }
 }
 
 function isPhoneLike(text: string): boolean {
@@ -146,6 +147,7 @@ function mergeSpans(text: string, spans: PiiSpan[]): PiiSpan[] {
     if (last !== undefined && span.start < last.end) {
       last.end = Math.max(last.end, span.end)
       last.text = text.slice(last.start, last.end)
+      last.ownerConfirmed = last.ownerConfirmed || span.ownerConfirmed
     } else merged.push({ ...span })
   }
   return merged

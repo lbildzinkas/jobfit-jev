@@ -43,6 +43,8 @@ export interface PiiSpan {
   start: number
   end: number
   text: string
+  /** Whether the span matches an owner-confirmed term, which no release undoes. */
+  ownerConfirmed: boolean
 }
 
 export type ProtectedCategory =

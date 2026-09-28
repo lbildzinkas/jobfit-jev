@@ -2,7 +2,7 @@
 // layout cues. Only a dictionary heading ends the header (step 4); a layout
 // heading only splits the body.
 
-import { isDateLine } from './dates'
+import { isDateLine, isRoleDateLine } from './dates'
 import type { CvLine, SectionKind } from './types'
 
 const dictionary: Record<SectionKind, string[]> = {
@@ -140,7 +140,7 @@ export function isLayoutHeading(
     return false
   if (looksLikeShortTitle(next.text) && isEmphasized(next, style)) return false
   const nearby = lines.slice(index + 1, index + 3)
-  return !nearby.some((candidate) => isDateLine(candidate.text))
+  return !nearby.some((candidate) => isRoleDateLine(candidate.text))
 }
 
 /** The most common font size by characters: the body text size. */
