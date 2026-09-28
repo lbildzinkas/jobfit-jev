@@ -1,7 +1,13 @@
 // @vitest-environment node
 // Builds the extension into a temporary directory and checks the unpacked
 // layout the manifest expects.
-import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import {
+  existsSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { build } from 'vite'
@@ -50,6 +56,24 @@ describe('unpacked build', () => {
       }
     },
   )
+})
+
+describe('bundled pdf.js', () => {
+  const assets = () => readdirSync(join(outDir, 'assets'))
+
+  it('ships its worker inside the extension as a .js file', () => {
+    const worker = assets().find((file) => file.startsWith('pdf.worker'))
+    expect(worker).toMatch(/\.js$/)
+    const bundles = assets().filter((file) => file.endsWith('.js'))
+    const referencing = bundles.filter((file) =>
+      readOutput(`assets/${file}`).includes(worker ?? '?'),
+    )
+    expect(referencing).not.toEqual([])
+  })
+
+  it('bundles no native Node.js addon', () => {
+    expect(assets().filter((file) => file.endsWith('.node'))).toEqual([])
+  })
 })
 
 function readOutput(file: string): string {

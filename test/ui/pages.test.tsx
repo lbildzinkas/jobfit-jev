@@ -1,7 +1,14 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { App } from '../../src/app/app'
 import { Popup } from '../../src/popup/popup'
+import { installFakeChrome } from '../support/fake-chrome'
+import { completeSetup } from './setup-data'
 
 afterEach(() => {
   cleanup()
@@ -9,30 +16,34 @@ afterEach(() => {
 })
 
 describe('popup', () => {
-  it('renders the empty popup', () => {
+  it('asks to finish setup and opens the full tab for it', async () => {
+    const { chrome } = installFakeChrome()
     render(<Popup />)
-    expect(screen.getByRole('heading', { name: 'jobfit-jev' })).toBeTruthy()
-  })
 
-  it('opens the full tab from the popup', () => {
-    const createTab = vi.fn(() => Promise.resolve({}))
-    vi.stubGlobal('chrome', {
-      runtime: { getURL: (path: string) => `chrome-extension://test/${path}` },
-      tabs: { create: createTab },
-    })
+    fireEvent.click(await screen.findByRole('button', { name: 'Finish setup' }))
 
-    render(<Popup />)
-    fireEvent.click(screen.getByRole('button', { name: 'Open full tab' }))
-
-    expect(createTab).toHaveBeenCalledWith({
+    expect(screen.getByText(/Setup needed/)).toBeTruthy()
+    expect(chrome.tabs.create).toHaveBeenCalledWith({
       url: 'chrome-extension://test/app.html',
     })
   })
-})
 
-describe('full tab', () => {
-  it('renders the empty page', () => {
-    render(<App />)
-    expect(screen.getByRole('heading', { name: 'jobfit-jev' })).toBeTruthy()
+  it('shows the route and model once setup is complete', async () => {
+    const { chrome } = installFakeChrome(completeSetup())
+    render(<Popup />)
+
+    expect(
+      await screen.findByText(/OpenRouter \(default\) · typesafe\/jev-1\.13/),
+    ).toBeTruthy()
+    expect(screen.getByRole('button', { name: 'Analyze' })).toHaveProperty(
+      'disabled',
+      true,
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'Open settings' }))
+    await waitFor(() => {
+      expect(chrome.tabs.create).toHaveBeenCalledWith({
+        url: 'chrome-extension://test/app.html#/settings',
+      })
+    })
   })
 })

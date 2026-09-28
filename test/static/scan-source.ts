@@ -54,6 +54,19 @@ export function findStorageSyncUses(
   })
 }
 
+// Web storage and IndexedDB are never used (docs/spec.md §3.4): everything
+// the extension keeps goes through chrome.storage.
+export function findWebStorageUses(
+  code: string,
+  fileName: string,
+): SourceFinding[] {
+  return findNodes(code, fileName, (node) => {
+    if (ts.isIdentifier(node) || ts.isStringLiteralLike(node))
+      return webStorageApis.has(node.text)
+    return false
+  })
+}
+
 function findNodes(
   code: string,
   fileName: string,
@@ -81,6 +94,7 @@ function findNodes(
 
 const shippedRoots = ['src', 'public']
 const scriptExtension = /\.[cm]?[jt]sx?$/
+const webStorageApis = new Set(['localStorage', 'sessionStorage', 'indexedDB'])
 const networkApis = new Set([
   'fetch',
   'XMLHttpRequest',

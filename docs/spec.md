@@ -1,6 +1,6 @@
 # jobfit-jev specification
 
-Status: **M0 (scaffold) built; M1 onward pending** (§15).
+Status: **M0 (scaffold), M1 (page reader), and M2 (CV and setup) built; M3 onward pending** (§15).
 Written 2026-09-23. This document is the source of truth for the first implementation.
 When the code and this spec disagree, fix one of them in the same change; do not let them drift.
 
@@ -111,6 +111,7 @@ There is **no declared `content_scripts` entry**. The page reader runs only when
 - Only the service worker calls `fetch`, and only to the selected Jev route's endpoint.
 - The popup, full tab, and page reader never make network requests. A test fails the build if `fetch`, `XMLHttpRequest`, `WebSocket`, or `EventSource` appears outside the service worker's provider module, `src/background/provider/`.
 - No analytics, telemetry, remote fonts, CDNs, or remote code. Everything is bundled.
+- pdf.js is bundled with its worker, which loads from the extension's own origin. The CV reaches it as bytes, and every pdf.js option that names a URL (`cMapUrl`, `standardFontDataUrl`, `wasmUrl`, `iccUrl`) stays unset, so pdf.js has nothing to fetch. Its own `fetch` paths are inside the bundled library, outside the source the network test scans.
 
 ### 3.4 Storage
 
@@ -120,7 +121,8 @@ There is **no declared `content_scripts` entry**. The page reader runs only when
 | Current analysis in progress: extracted posting (including description blocks), atoms, request cache keys | `chrome.storage.session` | In memory only; cleared when the browser quits |
 
 - At service-worker start, call `chrome.storage.local.setAccessLevel({ accessLevel: 'TRUSTED_CONTEXTS' })` and keep `storage.session` at its default trusted-only level, so injected scripts can never read keys or the CV.
-- **Never** use `chrome.storage.sync`, `localStorage`, IndexedDB outside the extension origin, or any remote store.
+- **Never** use `chrome.storage.sync`, `localStorage`, `sessionStorage`, IndexedDB, or any remote store; static tests refuse them in shipped source.
+- One module, `src/storage/store.ts`, names each item's area: `settings`, `apiKeys`, `cv`, `eligibility`, and `history` in `storage.local`; `analysis` in `storage.session`. Its `storage.local` functions refuse any other key, so the analysis in progress cannot be written there by mistake.
 - The raw description is never written to `storage.local`. History keeps only structured results (§8.6).
 
 ### 3.5 Message flow for one analysis
@@ -149,22 +151,26 @@ The core library (`src/core/`) stays framework-free so every rule is unit-testab
 
 ### 4.1 First run
 
-The full tab opens on install (`chrome.runtime.onInstalled`) and whenever the popup finds setup incomplete. Analyze stays disabled until steps 1–3 are done.
+The full tab opens on install (`chrome.runtime.onInstalled`); when setup is incomplete the popup shows **Finish setup**, which opens it (§10.1). Analyze stays disabled until steps 1–3 are done.
 
 1. **Model route and key.**
    - Route selector: **OpenRouter (default)** or **TypeSafe direct**.
    - Key field: masked, with a reveal toggle and a "Test key" button. OpenRouter: `GET https://openrouter.ai/api/v1/key` (shows remaining credit, costs nothing). TypeSafe: a free unauthenticated-shape check is not reliable, so test with the smallest possible request (one Noul, tiny state) and show its cost.
+     Testing a key is a network request, so it arrives with the Jev client (M4); until then the button is shown disabled.
+   - Saving the TypeSafe route first asks for its optional host permission (§3.2); if the owner refuses, the route is not changed.
    - Model ID, pre-filled and pinned: `typesafe/jev-1.13` (OpenRouter) or `jev-1.13.0` (TypeSafe). Editable under "Advanced", with a warning that thresholds are tuned per version.
    - Copy: "Your key is stored only in this browser's local extension storage, never synced, and sent only to the route you pick."
    - Suggest creating a dedicated OpenRouter key with a per-key credit limit.
 2. **CV import.**
-   - Pick one PDF. Parse it locally with pdf.js (§4.3).
-   - If the PDF has no usable text layer, refuse with "This looks like a scanned PDF. Export a text PDF from your editor, or paste the CV text instead." Offer the paste fallback.
+   - Pick one PDF. Parse it locally with pdf.js (§4.3). PDFs over 5 MB are refused (so the stored copy fits in `storage.local`), and only the first 20 pages are read.
+   - If the PDF has no usable text layer, refuse with "This looks like a scanned PDF. Export a text PDF from your editor, or paste the CV text instead." Offer the paste fallback. Pasted text needs at least 200 characters and carries no font sizes, so only capitals mark a layout heading.
 3. **Parsed-CV confirmation.**
    - Show the detected **header block** (to be stripped) and the **body** (to be sent), side by side, with each detected PII item highlighted: name, email, phone, address, links, photo.
    - Show lines withheld as protected attributes, and why.
    - The owner can move the header boundary, mark extra lines or spans as private, un-mark false positives, and fix section assignments.
    - The owner's corrections are stored with the CV and re-applied on every analysis.
+   - The name and any street address found in the header are pre-filled for the owner to confirm or edit; the owner can add more private text. An image drawn on page 1 is reported as a probable photo.
+   - The corrections are kept on screen until **Confirm parsed CV**, which stores them, the recomputed stripped CV, and the confirmation time together. A new import clears the confirmation.
 4. **Eligibility facts (optional, can skip).**
    - Work authorization (countries or regions), current location, open to relocation (yes/no/depends), workplace preference (remote/hybrid/on-site, multi-select), and optional salary floor and clearance.
    - These are compared in code with the posting's eligibility atoms (§8.5). They are never sent to Jev.
@@ -176,7 +182,7 @@ The full tab opens on install (`chrome.runtime.onInstalled`) and whenever the po
 - Privacy routing (OpenRouter only): `provider: { zdr: true, data_collection: "deny", allow_fallbacks: false }` on by default; shown read-only until live check 3 confirms it is accepted.
 - Canonical CV: replace, re-open the parsed-CV confirmation, delete.
 - Eligibility facts.
-- History: on/off, per-item delete, delete all (§8.6).
+- History: on/off, per-item delete, delete all (§8.6). Until assessments exist (M6), only the on/off setting is shown.
 - Data-boundary map (the table in §2.3).
 - "Delete all extension data" (clears `storage.local` and `storage.session`, with confirmation).
 - About: version, links to this spec and the Jev guide, third-party notices.
@@ -185,13 +191,13 @@ The full tab opens on install (`chrome.runtime.onInstalled`) and whenever the po
 
 All steps are deterministic code in the core library. Nothing probabilistic decides what is private.
 
-1. **Text extraction.** pdf.js `getTextContent()` per page, rebuilding lines from item positions (y then x). Scanned-PDF detection: fewer than about 200 extractable characters in total, or most pages empty, means refuse.
-2. **Sectioning.** Detect section headings by a heading dictionary (Summary, Profile, Experience, Work Experience, Employment, Projects, Education, Skills, Certifications, Languages, Publications, …) plus layout cues (short line, larger font or bold, followed by content). Unknown headings keep their text and become generic sections.
-3. **Roles.** Inside experience sections, detect role headers by a date-range pattern (`Mon YYYY – Mon YYYY | Present`, `YYYY–YYYY`, and localized month names) near a title/company line. Parse dates in code. A role whose dates do not parse keeps its text and is marked `datesUnparsed`.
-4. **Header.** Everything above the first recognized section heading is the header candidate. It is stripped entirely.
-5. **PII sweep over the whole CV,** not only the header: emails, phone numbers, URLs and handles (`linkedin.com/in/…`, `github.com/…`, any `http(s)://`), street-address patterns, and every occurrence of the owner-confirmed name and address strings are replaced with nothing (the line is kept if other text remains).
-6. **Protected-attribute withholding.** Lines matching a denylist (date of birth, age, gender, marital status, children, nationality, citizenship, visa status, religion, ethnicity, health, disability, photo captions, and localized equivalents) are withheld from the model. Work-authorization facts belong in the eligibility facts, not in the CV state.
-7. **Line IDs.** Every remaining body line gets a stable ID (`L000`, `L001`, …) in reading order, grouped as `summary`, `roles[i].header`, `roles[i].lines`, `education`, `skills`, `other`. Evidence quotes are copied from this map by ID.
+1. **Text extraction.** pdf.js `getTextContent()` per page, rebuilding lines from item positions (y then x). A row splits into segments at gaps wider than two font sizes; when a page has a clear vertical gutter (enough rows with text on one side only, few segments across it), the left column is read before the right one, band by band between full-width rows. Right-aligned dates never form a column, because they always share a row with text on the left. Scanned-PDF detection: fewer than about 200 extractable characters in total, or most pages empty, means refuse.
+2. **Sectioning.** Detect section headings by a heading dictionary (Summary, Profile, Experience, Work Experience, Employment, Projects, Education, Skills, Certifications, Languages, Publications, …) plus layout cues (short line, larger font or in capitals, followed by content). Unknown headings keep their text and become generic sections. The dictionary is English only (Q-D6); letter-spaced headings ("E X P E R I E N C E") and `&` for "and" match too. pdf.js does not report bold, so a layout heading needs a larger font or capitals, may not be smaller than the dictionary headings, and may not be followed by a date line within two lines (that is a role title).
+3. **Roles.** Inside experience sections, detect role headers by a date-range pattern (`Mon YYYY – Mon YYYY | Present`, `MM/YYYY`, `YYYY–YYYY`, "since YYYY", and month and "present" words in English, Portuguese, Spanish, German, and French) near a title/company line: up to two short non-bullet lines before the date line, or the line after a date-only line. Parse dates in code. A role whose dates do not parse keeps its text and is marked `datesUnparsed`.
+4. **Header.** Everything above the first dictionary heading is the header candidate. It is stripped entirely. When no dictionary heading is found, the whole CV is header and nothing would be sent until the owner moves the boundary.
+5. **PII sweep over the whole CV,** not only the header: emails, phone numbers (8 to 15 digits, never a date range), URLs and handles (`linkedin.com/in/…`, `github.com/…`, any `http(s)://`, `www.`, lower-case bare domains, `@handle`), street-address patterns (English, Portuguese, Spanish, French, Italian, and German street forms, Brazilian CEP, US state plus ZIP), and every occurrence of the owner-confirmed name, address, and private strings are replaced with nothing (the line is kept if other text remains). Shorter postal-code shapes (UK, a bare ZIP) are not matched because they collide with product names and figures; they are left to the header and the confirmed address. A detected span the owner marks "not personal" is released; a confirmed name or address never is.
+6. **Protected-attribute withholding.** Lines matching a denylist (date of birth, age, gender, marital status, children, nationality, citizenship, visa status, religion, ethnicity, health, disability, photo captions, and localized equivalents) are withheld from the model. Work-authorization facts belong in the eligibility facts, not in the CV state. A label followed by a colon ("Nationality: …") always matches; bare words match only in phrases that cannot be ordinary work vocabulary, so "digital health platform" or "Visa – Payments" stay.
+7. **Line IDs.** Every remaining body line gets a stable ID (`L000`, `L001`, …) in reading order, grouped as `summary`, `roles[i].header`, `roles[i].lines`, `education`, `skills`, `other`. Evidence quotes are copied from this map by ID. A generic section's heading ("Languages") is kept in `other` as a line of its own, for context; experience lines before the first role go to `other`.
 
 Stripping is covered by unit tests on synthetic CVs, and the pre-send review (§7.4) shows the exact payload before anything is sent.
 
@@ -493,7 +499,7 @@ Keyboard reachable controls, visible focus, verdict meaning never conveyed by co
 - **Request builders**: snapshot tests of request 1 and 2 bodies; option caps (≤ 255 per Choice); budget splitting; no OpenRouter-only fields on the TypeSafe route.
 - **Provider layer** with a mocked `fetch`: every row of §9, retry and backoff timing, `Retry-After` handling, validation failures, no silent route change.
 - **Verdict and aggregation** pure functions: each rule in §8.1, years arithmetic with overlapping roles, coverage range edge cases (zero required, all unclear), eligibility comparisons.
-- **Static checks** (`test/static/`): no network APIs outside the provider module; no `storage.sync`; no `content_scripts` in the manifest; no LinkedIn host permission. Alongside them: the manifest matches §3.2, the build emits the files the manifest names, and every bundled package is permissively licensed and listed in `THIRD_PARTY_NOTICES.md`.
+- **Static checks** (`test/static/`): no network APIs outside the provider module; no `storage.sync`, web storage, or IndexedDB; no `content_scripts` in the manifest; no LinkedIn host permission. Alongside them: the manifest matches §3.2, the build emits the files the manifest names, and every bundled package is permissively licensed and listed in `THIRD_PARTY_NOTICES.md`.
 
 ### 11.2 Manual checks in Brave
 
@@ -566,7 +572,7 @@ Each milestone ends with its tests passing and this spec updated where reality d
 |---|---|---|---|---|
 | M0 | Scaffold | TypeScript, bundler, manifest (§3.2), Vitest + jsdom, lint, static checks (§11.1), `THIRD_PARTY_NOTICES.md` | Unpacked build loads in Brave; empty popup and tab open | Built; loads headless, owner's Brave check pending |
 | M1 | Page reader | `selectors.ts`, reader (§5), block walker, loud failures | Fixture tests pass on all three layouts including stale-pane and negative cases; manual check on real postings | Built; fixture tests green; owner's manual check on real postings pending |
-| M2 | CV and setup | pdf.js import, sectioning, stripping (§4.3), first-run setup and settings (§4), storage access levels | Stripping tests pass; parsed-CV confirmation works on the owner's CV | Not started |
+| M2 | CV and setup | pdf.js import, sectioning, stripping (§4.3), first-run setup and settings (§4), storage access levels | Stripping tests pass; parsed-CV confirmation works on the owner's CV | Built; stripping tests green; import checked headless on a synthetic PDF; owner's check on the real CV in Brave pending |
 | M3 | Atoms | Atomizer (§6.1) and confirmation UI (§6.3) | Atomizer tests pass; the owner can confirm atoms for a real posting | Not started |
 | M4 | Jev client | Provider layer, validation, retries, caching, test-key (§7.1, §9) | Live checks 1–5, 14, 15 done and recorded; provider tests pass | Not started |
 | M5 | Assessment | Requests 1 and 2, pre-send review, verdicts, years, coverage range, eligibility (§7–§8) | End-to-end assessment on a real posting with correct scoping of tiers and eligibility | Not started |

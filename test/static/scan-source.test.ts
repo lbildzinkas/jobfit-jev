@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { findNetworkApiUses, findStorageSyncUses } from './scan-source'
+import {
+  findNetworkApiUses,
+  findStorageSyncUses,
+  findWebStorageUses,
+} from './scan-source'
 
 describe('findNetworkApiUses', () => {
   it.each([
@@ -48,5 +52,22 @@ describe('findStorageSyncUses', () => {
     ['a longer identifier', 'const isSyncing = true'],
   ])('ignores %s', (_, code) => {
     expect(findStorageSyncUses(code, 'probe.ts')).toEqual([])
+  })
+})
+
+describe('findWebStorageUses', () => {
+  it.each([
+    ['localStorage', 'localStorage.setItem(k, v)'],
+    ['sessionStorage', 'window.sessionStorage.getItem(k)'],
+    ['IndexedDB', "globalThis['indexedDB'].open('db')"],
+  ])('flags %s', (_, code) => {
+    expect(findWebStorageUses(code, 'probe.ts')).not.toEqual([])
+  })
+
+  it.each([
+    ['chrome.storage.local', 'chrome.storage.local.get()'],
+    ['a comment', '// never localStorage\nconst x = 1'],
+  ])('ignores %s', (_, code) => {
+    expect(findWebStorageUses(code, 'probe.ts')).toEqual([])
   })
 })
